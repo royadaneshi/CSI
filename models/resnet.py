@@ -22,12 +22,13 @@ def conv3x3(in_planes, out_planes, stride=1):
 class BasicBlock(nn.Module):
     expansion = 1
 
-    def __init__(self, in_planes, planes, stride=1):
+    def __init__(self, in_planes, planes, stride=1, activation=F.relu):
         super(BasicBlock, self).__init__()
         self.conv1 = conv3x3(in_planes, planes, stride)
         self.conv2 = conv3x3(planes, planes)
         self.bn1 = nn.BatchNorm2d(planes)
         self.bn2 = nn.BatchNorm2d(planes)
+        self.activation = activation
 
         self.shortcut = nn.Sequential()
         if stride != 1 or in_planes != self.expansion*planes:
@@ -37,10 +38,10 @@ class BasicBlock(nn.Module):
             )
 
     def forward(self, x):
-        out = F.gelu(self.bn1(self.conv1(x)))
+        out = self.activation(self.bn1(self.conv1(x)))
         out = self.bn2(self.conv2(out))
         out += self.shortcut(x)
-        out = F.gelu(out)
+        out = self.activation(out)
         return out
 
 
@@ -48,12 +49,13 @@ class PreActBlock(nn.Module):
     '''Pre-activation version of the BasicBlock.'''
     expansion = 1
 
-    def __init__(self, in_planes, planes, stride=1):
+    def __init__(self, in_planes, planes, stride=1, activation=F.relu):
         super(PreActBlock, self).__init__()
         self.conv1 = conv3x3(in_planes, planes, stride)
         self.conv2 = conv3x3(planes, planes)
         self.bn1 = nn.BatchNorm2d(in_planes)
         self.bn2 = nn.BatchNorm2d(planes)
+        self.activation = activation
 
         self.shortcut = nn.Sequential()
         if stride != 1 or in_planes != self.expansion*planes:
@@ -62,10 +64,10 @@ class PreActBlock(nn.Module):
             )
 
     def forward(self, x):
-        out = F.gelu(self.bn1(x))
+        out = self.activation(self.bn1(x))
         shortcut = self.shortcut(out)
         out = self.conv1(out)
-        out = self.conv2(F.gelu(self.bn2(out)))
+        out = self.conv2(self.activation(self.bn2(out)))
         out += shortcut
         return out
 
@@ -73,7 +75,7 @@ class PreActBlock(nn.Module):
 class Bottleneck(nn.Module):
     expansion = 4
 
-    def __init__(self, in_planes, planes, stride=1):
+    def __init__(self, in_planes, planes, stride=1, activation=F.relu):
         super(Bottleneck, self).__init__()
         self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=1, bias=False)
         self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
@@ -81,6 +83,7 @@ class Bottleneck(nn.Module):
         self.bn1 = nn.BatchNorm2d(planes)
         self.bn2 = nn.BatchNorm2d(planes)
         self.bn3 = nn.BatchNorm2d(self.expansion * planes)
+        self.activation = activation
 
         self.shortcut = nn.Sequential()
         if stride != 1 or in_planes != self.expansion*planes:
@@ -90,11 +93,11 @@ class Bottleneck(nn.Module):
             )
 
     def forward(self, x):
-        out = F.gelu(self.bn1(self.conv1(x)))
-        out = F.gelu(self.bn2(self.conv2(out)))
+        out = self.activation(self.bn1(self.conv1(x)))
+        out = self.activation(self.bn2(self.conv2(out)))
         out = self.bn3(self.conv3(out))
         out += self.shortcut(x)
-        out = F.gelu(out)
+        out = self.activation(out)
         return out
 
 
@@ -102,7 +105,7 @@ class PreActBottleneck(nn.Module):
     '''Pre-activation version of the original Bottleneck module.'''
     expansion = 4
 
-    def __init__(self, in_planes, planes, stride=1):
+    def __init__(self, in_planes, planes, stride=1, activation=F.relu):
         super(PreActBottleneck, self).__init__()
         self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=1, bias=False)
         self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
@@ -110,6 +113,7 @@ class PreActBottleneck(nn.Module):
         self.bn1 = nn.BatchNorm2d(in_planes)
         self.bn2 = nn.BatchNorm2d(planes)
         self.bn3 = nn.BatchNorm2d(planes)
+        self.activation = activation
 
         self.shortcut = nn.Sequential()
         if stride != 1 or in_planes != self.expansion*planes:
@@ -118,20 +122,26 @@ class PreActBottleneck(nn.Module):
             )
 
     def forward(self, x):
-        out = F.gelu(self.bn1(x))
+        out = self.activation(self.bn1(x))
         shortcut = self.shortcut(out)
         out = self.conv1(out)
-        out = self.conv2(F.gelu(self.bn2(out)))
-        out = self.conv3(F.gelu(self.bn3(out)))
+        out = self.conv2(self.activation(self.bn2(out)))
+        out = self.conv3(self.activation(self.bn3(out)))
         out += shortcut
         return out
 
 
 class ResNet(BaseModel):
-    def __init__(self, block, num_blocks, num_classes=10):
+    def __init__(self, block, num_blocks, num_classes=10, activation="relu"):
         last_dim = 512 * block.expansion
         super(ResNet, self).__init__(last_dim, num_classes)
+        
 
+        if activation=='gelu':
+            self.activation = F.gelu
+        else:
+            self.activation = F.relu
+        
         self.in_planes = 64
         self.last_dim = last_dim
 
@@ -149,7 +159,7 @@ class ResNet(BaseModel):
         strides = [stride] + [1]*(num_blocks-1)
         layers = []
         for stride in strides:
-            layers.append(block(self.in_planes, planes, stride))
+            layers.append(block(self.in_planes, planes, stride, self.activation))
             self.in_planes = planes * block.expansion
         return nn.Sequential(*layers)
 
@@ -159,7 +169,7 @@ class ResNet(BaseModel):
         out = self.normalize(x)
         out = self.conv1(out)
         out = self.bn1(out)
-        out = F.gelu(out)
+        out = self.activation(out)
         out_list.append(out)
 
         out = self.layer1(out)
@@ -271,8 +281,8 @@ class Pretrain_ResNet152_Corruption(BaseModel):
         return z_n
 
 
-def ResNet18(num_classes):
-    return ResNet(BasicBlock, [2,2,2,2], num_classes=num_classes)
+def ResNet18(num_classes, activation=None):
+    return ResNet(BasicBlock, [2,2,2,2], num_classes=num_classes, activation=activation)
 
 def ResNet34(num_classes):
     return ResNet(BasicBlock, [3,4,6,3], num_classes=num_classes)

@@ -52,6 +52,8 @@ def parse_args(default=False):
                         default=-1, type=int)
     parser.add_argument('--high_var', help='not used!',
                         default=0, choices=[0, 1], type=int)
+     parser.add_argument('--activation_function', help='activation_function for resnet from scratch model.(note this argument is used just in resent18 from scratch)',
+                        choices=['relu', 'gelu'], default="relu", type=str)
     parser.add_argument('--model', help='Model',
                         choices=['pretrain-resnet152-corruption', 'pretrain-resnet152', 'vit_fitymi', 'vit', 'resnet18', 'resnet18_imagenet', 'pretrain-resnet18'], default="resnet18", type=str)
     parser.add_argument('--mode', help='Training mode',

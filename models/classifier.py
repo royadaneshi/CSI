@@ -59,9 +59,9 @@ def get_shift_classifer(model, K_shift):
     return model
 
 
-def get_classifier(mode, n_classes=10):
+def get_classifier(mode, n_classes=10, activation='relu'):
     if mode == 'resnet18':
-        classifier = ResNet18(num_classes=n_classes)
+        classifier = ResNet18(num_classes=n_classes, activation=activation)
     elif mode == "vit_fitymi":
         classifier = VIT_Pretrain_FITYMI(num_classes=n_classes)
     elif mode == "vit":
