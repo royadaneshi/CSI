@@ -247,9 +247,10 @@ class Pretrain_ResNet18_Corruption(BaseModel):
         self.std = std
         self.mean = mean
         self.noise_scale = noise_scale
-     
+        self.device = torch.device(f"cuda" if torch.cuda.is_available() else "cpu")
+
     def penultimate(self, x, all_features=False):
-        x = x + (torch.randn(x.size()) * self.std + self.mean)*self.noise_scale
+        x = x + (torch.randn(x.size()).to(self.device) * self.std + self.mean)*self.noise_scale
         x = self.norm(x)
         z1 = self.backbone(x)
         z_n = F.normalize(z1, dim=-1)
