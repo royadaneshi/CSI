@@ -228,7 +228,7 @@ class Pretrain_ResNet(BaseModel):
 class Pretrain_ResNet18_Corruption(BaseModel):
     def __init__(self, block, num_blocks, num_classes=10, std=1.0, mean=0.0, noise_scale=0.1):
         last_dim = 512 * block.expansion
-        super(Pretrain_ResNet, self).__init__(last_dim, num_classes)
+        super(Pretrain_ResNet18_Corruption, self).__init__(last_dim, num_classes)
 
         self.in_planes = 64
         self.last_dim = last_dim
