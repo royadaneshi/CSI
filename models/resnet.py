@@ -225,6 +225,37 @@ class Pretrain_ResNet(BaseModel):
         return z_n
 
 
+class Pretrain_ResNet18_Corruption(BaseModel):
+    def __init__(self, block, num_blocks, num_classes=10, std=1.0, mean=0.0, noise_scale=0.1):
+        last_dim = 512 * block.expansion
+        super(Pretrain_ResNet, self).__init__(last_dim, num_classes)
+
+        self.in_planes = 64
+        self.last_dim = last_dim
+
+        mu = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1).cuda()
+        std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1).cuda()
+        self.norm = lambda x: (x - mu) / std
+        self.backbone = models.resnet18(pretrained=True)
+        self.backbone.fc = torch.nn.Identity()
+        i = 0
+        num = 30
+        for param in self.backbone.parameters():
+            if i<num:
+                param.requires_grad = False
+            i+=1
+        self.std = std
+        self.mean = mean
+        self.noise_scale = noise_scale
+     
+    def penultimate(self, x, all_features=False):
+        x = x + (torch.randn(x.size()) * self.std + self.mean)*self.noise_scale
+        x = self.norm(x)
+        z1 = self.backbone(x)
+        z_n = F.normalize(z1, dim=-1)
+        return z_n
+
+
 class Pretrain_ResNet152(BaseModel):
     def __init__(self, block, num_blocks, num_classes=10):
         last_dim = 2048 * block.expansion
@@ -298,3 +329,6 @@ def Pretrain_ResNet152_Model(num_classes):
 
 def Pretrain_ResNet152_Corruption_Model(num_classes):
     return Pretrain_ResNet152_Corruption(BasicBlock, [2,2,2,2], num_classes=num_classes)
+
+def Pretrain_ResNet18_Corruption_Model(num_classes, std=1.0, mean=0.0, noise_scale=0.1):
+    return Pretrain_ResNet18_Corruption(BasicBlock, [2,2,2,2], num_classes=num_classes, activation=activation,  std=std, mean=mean, noise_scale=noise_scale)
