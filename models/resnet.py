@@ -330,5 +330,5 @@ def Pretrain_ResNet152_Model(num_classes):
 def Pretrain_ResNet152_Corruption_Model(num_classes):
     return Pretrain_ResNet152_Corruption(BasicBlock, [2,2,2,2], num_classes=num_classes)
 
-def Pretrain_ResNet18_Corruption_Model(num_classes, std=1.0, mean=0.0, noise_scale=0.1):
+def Pretrain_ResNet18_Corruption_Model(num_classes, activation='relu', std=1.0, mean=0.0, noise_scale=0.1):
     return Pretrain_ResNet18_Corruption(BasicBlock, [2,2,2,2], num_classes=num_classes, activation=activation,  std=std, mean=mean, noise_scale=noise_scale)
