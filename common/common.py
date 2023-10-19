@@ -130,6 +130,8 @@ def parse_args(default=False):
 
     parser.add_argument("--print_score", help='print quantiles of ood score',
                         action='store_true')
+    parser.add_argument("--print_3_score", help='print quantiles of ood score',
+                        action='store_true')
     parser.add_argument("--save_score", help='save ood score for plotting histogram',
                         action='store_true')
 
