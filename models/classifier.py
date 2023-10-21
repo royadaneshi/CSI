@@ -59,11 +59,11 @@ def get_shift_classifer(model, K_shift):
     return model
 
 
-def get_classifier(mode, n_classes=10, activation='relu', std=1.0, mean=0.0, noise_scale=0.1):
+def get_classifier(mode, n_classes=10, activation='relu', std=1.0, mean=0.0, noise_scale=0.1, noist_probability=0.5):
     if mode == 'resnet18':
         classifier = ResNet18(num_classes=n_classes, activation=activation)
     elif mode == 'resnet18-corruption':
-        classifier = Pretrain_ResNet18_Corruption_Model(num_classes=n_classes, std=std, mean=mean, noise_scale=noise_scale)
+        classifier = Pretrain_ResNet18_Corruption_Model(num_classes=n_classes, std=std, mean=mean, noise_scale=noise_scale, probability=noist_probability)
     elif mode == "vit_fitymi":
         classifier = VIT_Pretrain_FITYMI(num_classes=n_classes)
     elif mode == "vit":

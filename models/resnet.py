@@ -226,7 +226,7 @@ class Pretrain_ResNet(BaseModel):
 
 
 class Pretrain_ResNet18_Corruption(BaseModel):
-    def __init__(self, block, num_blocks, num_classes=10, std=1.0, mean=0.0, noise_scale=0.1):
+    def __init__(self, block, num_blocks, num_classes=10, std=1.0, mean=0.0, noise_scale=0.1, probability=0.5):
         last_dim = 512 * block.expansion
         super(Pretrain_ResNet18_Corruption, self).__init__(last_dim, num_classes)
 
@@ -248,9 +248,12 @@ class Pretrain_ResNet18_Corruption(BaseModel):
         self.mean = mean
         self.noise_scale = noise_scale
         self.device = torch.device(f"cuda" if torch.cuda.is_available() else "cpu")
+        self.probability = probability
 
     def penultimate(self, x, all_features=False):
-        x = x + (torch.randn(x.size()).to(self.device) * self.std + self.mean)*self.noise_scale
+        p = random.random()
+        if p < self.probability:
+            x = x + (torch.randn(x.size()).to(self.device) * self.std + self.mean)*self.noise_scale
         x = self.norm(x)
         z1 = self.backbone(x)
         z_n = F.normalize(z1, dim=-1)
@@ -331,5 +334,5 @@ def Pretrain_ResNet152_Model(num_classes):
 def Pretrain_ResNet152_Corruption_Model(num_classes):
     return Pretrain_ResNet152_Corruption(BasicBlock, [2,2,2,2], num_classes=num_classes)
 
-def Pretrain_ResNet18_Corruption_Model(num_classes, std=1.0, mean=0.0, noise_scale=0.1):
-    return Pretrain_ResNet18_Corruption(BasicBlock, [2,2,2,2], num_classes=num_classes, std=std, mean=mean, noise_scale=noise_scale)
+def Pretrain_ResNet18_Corruption_Model(num_classes, std=1.0, mean=0.0, noise_scale=0.1, probability=0.5):
+    return Pretrain_ResNet18_Corruption(BasicBlock, [2,2,2,2], num_classes=num_classes, std=std, mean=mean, noise_scale=noise_scale, probability=probability)

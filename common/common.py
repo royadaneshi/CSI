@@ -51,7 +51,8 @@ def parse_args(default=False):
                         default=1.0, type=float)
     parser.add_argument('--noise_scale', help='',
                         default=0.1, type=float)
-
+    parser.add_argument('--noist_probability', help='',
+                        default=0.5, type=float)                        
     parser.add_argument('--fake_data_percent', help='',
                         default=0.0, type=float)
     parser.add_argument('--cutpast_data_percent', help='',

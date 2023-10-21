@@ -66,7 +66,8 @@ for epoch in range(start_epoch, P.epochs + 1):
             "--one_class_idx" , str(P.one_class_idx),
             "--load_path", str(P.load_path),
             "--normal_labels", str(P.normal_labels),
-            "--noise_scale",str(0),
+            "--noise_scale",str(0.0),
+            "--noist_probability", str(0.0)
         ]
 
         result = subprocess.run(["python", "eval.py"] + arguments_to_pass, capture_output=True, text=True)
