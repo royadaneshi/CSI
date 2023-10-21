@@ -34,7 +34,7 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
     check = time.time()
     train_exposure_loader_iterator = iter(train_exposure_loader)
     print("len(train_exposure_loader_iterator), len(loader): ", len(train_exposure_loader_iterator), len(loader))
-
+    print("cl_no_hflip=", cl_no_hflip)
     for n, (images, labels) in enumerate(loader):
         try:
             exposure_images, _ = next(train_exposure_loader_iterator)
@@ -53,7 +53,10 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
             batch_size = images.size(0)
             images = images.to(device)
             exposure_images = exposure_images.to(device)
-            images1, images2 = hflip(images.repeat(2, 1, 1, 1)).chunk(2)  # hflip
+            if cl_no_hflip:
+                images1, images2 = images.repeat(2, 1, 1, 1).chunk(2)  # hflip
+            else:
+                images1, images2 = hflip(images.repeat(2, 1, 1, 1)).chunk(2)  # hflip
             exposure_images1, exposure_images2 = hflip(exposure_images.repeat(2, 1, 1, 1)).chunk(2)  # hflip
         else:
             batch_size = images[0].size(0)
