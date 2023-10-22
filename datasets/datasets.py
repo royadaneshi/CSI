@@ -44,6 +44,7 @@ MNIST_CORRUPTION_SUPERCLASS = list(range(10))
 CIFAR10_VER_CIFAR100_SUPERCLASS = list(range(2))
 DTD_SUPERCLASS = list(range(46))
 WBC_SUPERCLASS = list(range(2))
+DIOR_SUPERCLASS = list(range(19))
 
 def sparse2coarse(targets):
     coarse_labels = np.array(
@@ -441,7 +442,6 @@ def get_exposure_dataloader(P, batch_size = 64, image_size=(224, 224, 3),
             if len(train_ds_head_ct_fake) > 0:
                 print("number of fake data:", len(train_ds_head_ct_fake), "shape:", train_ds_head_ct_fake[0][0].shape)
             exposureset = torch.utils.data.ConcatDataset([cutpast_train_set, train_ds_head_ct_fake, imagenet_exposure])
-
         else:
             exposureset = torch.utils.data.ConcatDataset([cutpast_train_set, imagenet_exposure])
         
@@ -503,6 +503,15 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         test_set = datasets.CIFAR10(DATA_PATH, train=False, download=download, transform=test_transform)
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
+    elif dataset == 'dior':
+        transform = transforms.Compose([
+            transforms.Resize((image_size[0], image_size[1])),
+            transforms.ToTensor(),
+        ])
+        _transform = train_transform_cutpasted if train_transform_cutpasted else transform
+        train_set = DIOR(DATA_PATH, train=True, download=download, transform=_transform)
+        n_classes = len(train_set.classes)
+        test_set = DIOR(DATA_PATH, train=False, download=download, transform=transform)
     elif dataset == 'ucsd':
         n_classes = 2
         transform = transforms.Compose([
@@ -970,6 +979,8 @@ def get_superclass_list(dataset):
         return UCSD_SUPERCLASS
     elif dataset == 'imagenet':
         return IMAGENET_SUPERCLASS
+    elif dataset == 'dior':
+        return DIOR_SUPERCLASS
     else:
         raise NotImplementedError()
 
