@@ -829,7 +829,6 @@ class DIOR(Dataset):
         
         with zipfile.ZipFile(file_path, 'r') as zip_ref:
             zip_ref.extractall(data_path)
-        os.remove(file_path)
     
     def _load_data(self):
         if self.train:
