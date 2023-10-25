@@ -832,6 +832,9 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         ])
         test_set = CIFAR_CORRUCPION(transform=transform, cifar_corruption_label='CIFAR-100-C/labels.npy', cifar_corruption_data=P.cifar_corruption_data)
         train_set = datasets.CIFAR100(DATA_PATH, train=True, download=download, transform=transform)
+        
+        train_set.targets = sparse2coarse(train_set.targets)
+
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
     
