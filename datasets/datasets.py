@@ -741,6 +741,38 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         print("test_set shapes: ", test_set[0][0].shape)
         
         print("len(test_dataset), len(train_dataset)", len(test_set), len(train_set))
+    elif dataset == 'mvtec-high-var-corruption':
+        n_classes = 2
+        train_dataset = []
+        test_dataset = []
+        root = "./mvtec_anomaly_detection"
+        train_transform = transforms.Compose([
+                transforms.Resize((256, 256)),
+                transforms.CenterCrop((image_size[0], image_size[1])),
+                transforms.RandomHorizontalFlip(),
+                transforms.ToTensor(),
+            ])
+        def gaussian_noise(image, mean=P.noise_mean, std = P.noise_mean, noise_scale = P.noise_scale):
+            image = image + (torch.randn(image.size()) * std + mean)*noise_scale
+            return image     
+        test_transform = transforms.Compose([
+                transforms.Resize((image_size[0], image_size[1])),
+                transforms.ToTensor(),
+                transforms.Lambda(gaussian_noise),
+            ])
+        for class_idx in labels:
+            if train_transform_cutpasted:
+                train_dataset.append(MVTecDataset_Cutpasted(root=root, train=True, category=CLASS_NAMES[class_idx], transform=train_transform_cutpasted, count=-1))
+            else:
+                train_dataset.append(MVTecDataset(root=root, train=True, category=CLASS_NAMES[class_idx], transform=train_transform, count=-1))
+            test_dataset.append(MVTecDataset(root=root, train=False, category=CLASS_NAMES[class_idx], transform=test_transform, count=-1))
+
+        train_set = ConcatDataset(train_dataset)
+        test_set = ConcatDataset(test_dataset)
+        print("train_set shapes: ", train_set[0][0].shape)
+        print("test_set shapes: ", test_set[0][0].shape)
+        
+        print("len(test_dataset), len(train_dataset)", len(test_set), len(train_set))
     elif dataset == 'fashion-mnist':
         # image_size = (32, 32, 3)
         n_classes = 10
@@ -978,7 +1010,7 @@ def get_superclass_list(dataset):
         return MVTecAD_SUPERCLASS
     elif dataset == 'head-ct':
         return HEAD_CT_SUPERCLASS
-    elif dataset == 'mvtec-high-var':
+    elif dataset == 'mvtec-high-var' or dataset == 'mvtec-high-var-corruption':
         return MVTEC_HV_SUPERCLASS
     elif dataset == 'cifar10':
         return CIFAR10_SUPERCLASS
