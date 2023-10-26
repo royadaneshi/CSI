@@ -896,6 +896,29 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         test_set = datasets.SVHN(DATA_PATH, split='test', download=download, transform=transform)
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
+    
+    elif dataset == 'svhn-10-corruption':
+
+        def gaussian_noise(image, mean=P.noise_mean, std = P.noise_std, noise_scale = P.noise_scale):
+            image = image + (torch.randn(image.size()) * std + mean)*noise_scale
+            return image
+
+        n_classes = 10
+        train_transform = transforms.Compose([
+            transforms.Resize((image_size[0], image_size[1])),
+            transforms.ToTensor(),
+        ])
+        test_transform = transforms.Compose([
+            transforms.Resize((image_size[0], image_size[1])),
+            transforms.ToTensor(),
+            transforms.Lambda(gaussian_noise)
+        ])
+
+        train_set = datasets.SVHN(DATA_PATH, split='train', download=download, transform=train_transform)
+        test_set = datasets.SVHN(DATA_PATH, split='test', download=download, transform=test_transform)
+        print("train_set shapes: ", train_set[0][0].shape)
+        print("test_set shapes: ", test_set[0][0].shape)
+
     elif dataset == 'svhn':
         assert test_only and image_size is not None
         test_set = datasets.SVHN(DATA_PATH, split='test', download=download, transform=test_transform)
@@ -988,7 +1011,7 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
 
 
 def get_superclass_list(dataset):
-    if dataset == 'svhn-10':
+    if dataset=='svhn-10' or  dataset=='svhn-10-corruption':
         return SVHN_SUPERCLASS
     elif dataset == 'cifar10-corruption':
         return CIFAR10_CORRUPTION_SUPERCLASS
