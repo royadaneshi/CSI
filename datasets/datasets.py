@@ -752,7 +752,7 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
                 transforms.RandomHorizontalFlip(),
                 transforms.ToTensor(),
             ])
-        def gaussian_noise(image, mean=P.noise_mean, std = P.noise_mean, noise_scale = P.noise_scale):
+        def gaussian_noise(image, mean=P.noise_mean, std = P.noise_std, noise_scale = P.noise_scale):
             image = image + (torch.randn(image.size()) * std + mean)*noise_scale
             return image     
         test_transform = transforms.Compose([
