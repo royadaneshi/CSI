@@ -698,7 +698,7 @@ class CIFAR_CORRUCPION(Dataset):
         if cifar_corruption_label == 'CIFAR-10-C/labels.npy':
             self.labels_10 = sparse2coarse(self.labels_10)
         self.data = np.load(cifar_corruption_data)
-        self.data = self.data[10000:]
+        self.data = self.data[:10000]
         self.transform = transform
         '''
         def indice_by_label(data_labels, normal_labels):
