@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-from models.resnet import ResNet18, ResNet34, ResNet50, Pretrain_ResNet18_Model, Pretrain_ResNet152_Model, Pretrain_ResNet152_Corruption_Model, Pretrain_ResNet18_Corruption_Model
+from models.resnet import ResNet18, ResNet34, ResNet50, Pretrain_ResNet18_Model, Pretrain_ResNet152_Model, Pretrain_ResNet152_Corruption_Model, Pretrain_ResNet18_Corruption_Model, Pretrain_Wide_ResNet_Model
 from models.resnet_imagenet import resnet18, resnet50
 from models.wide_resnet import wide_resnet34_5
 import models.transform_layers as TL
@@ -67,6 +67,8 @@ def get_classifier(mode, n_classes=10, activation='relu', std=1.0, mean=0.0, noi
         classifier = Pretrain_ResNet18_Corruption_Model(num_classes=n_classes, std=std, mean=mean, noise_scale=noise_scale, probability=noist_probability)
     elif mode == "vit_fitymi":
         classifier = VIT_Pretrain_FITYMI(num_classes=n_classes)
+    elif mode == "pretrain-wide-resnet":
+        classifier = Pretrain_Wide_ResNet_Model((num_classes=n_classes))
     elif mode == "vit":
         classifier = VIT_Pretrain(num_classes=n_classes)
     elif mode == 'pretrain-resnet152-corruption':
