@@ -302,7 +302,7 @@ class Pretrain_Wide_ResNet(BaseModel):
         self.backbone = models.wide_resnet50_2(pretrained=True)
         self.backbone.fc = torch.nn.Identity()
         i = 0
-        num = 108
+        num = 72
         for param in self.backbone.parameters():
             if i<num:
                 param.requires_grad = False
