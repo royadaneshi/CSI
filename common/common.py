@@ -136,6 +136,7 @@ def parse_args(default=False):
                         action='store_true')
     parser.add_argument("--save_score", help='save ood score for plotting histogram',
                         action='store_true')
+    parser.add_argument('--timer', default=None, type=int)
 
     if default:
         return parser.parse_args('')  # empty string

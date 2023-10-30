@@ -4,6 +4,9 @@ from utils.utils import save_linear_checkpoint
 import os
 from common.train import *
 from evals import test_classifier
+import time
+
+start_time = time.time()
 
 if 'sup' in P.mode:
     from training.sup import setup
@@ -25,6 +28,8 @@ linear_optim = torch.optim.Adam(linear.parameters(), lr=1e-3, betas=(.9, .999), 
 epoch = 0
 # Run experiments
 for epoch in range(start_epoch, P.epochs + 1):
+    if P.timer is not None and P.timer < (time.time() - start_time):
+        break
     logger.log_dirname(f"Epoch {epoch}")
     model.train()
 
