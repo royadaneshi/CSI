@@ -692,12 +692,12 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         np.random.shuffle(images3.numpy())
         np.random.shuffle(images4.numpy())
 
-        Normal_data=images1[:int(images1.shape[0]*0.8)]  #Normal 1 
+        Normal_data=images1[:int(images1.shape[0]*0.8)].numpy() #Normal 1 
         Normal_label=[0]*int(images1.shape[0]*0.8)
 
         test_set_=[images1[int(images1.shape[0]*0.8):],images2 ,images3 ,images4 ]
         test_label=[0]*(images1.shape[0]-int(images1.shape[0]*0.8))+ [1]*(images2.shape[0] )+[1]*(images3.shape[0] )+[1]*(images4.shape[0] )
-        test_set__t=torch.cat(test_set_)
+        test_set__t=torch.cat(test_set_).numpy()
 
         orig_transform_224 = transforms.Compose([
             transforms.Resize([image_size[0], image_size[1]]),
