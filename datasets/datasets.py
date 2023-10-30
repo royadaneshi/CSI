@@ -700,7 +700,7 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         test_set__t=torch.cat(test_set_)
 
         orig_transform_224 = transforms.Compose([
-            transforms.Resize([image_size[0], image_size[1]]) 
+            transforms.Resize([image_size[0], image_size[1]])
         ])
         _transform_224 = transforms.Compose([
             transforms.Resize([image_size[0], image_size[1]]) ,transforms.RandomHorizontalFlip()

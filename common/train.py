@@ -48,11 +48,7 @@ else:
 P.ood_layer = P.ood_layer[0]
 
 ### Initialize dataset ###
-if P.image_size==32:
-    image_size_ = (32, 32, 3)
-else:
-    image_size_ = (224, 224, 3)
-
+image_size_ = (P.image_size, P.image_size, 3)
 if P.dataset=="MVTecAD":
     train_set, test_set, image_size, n_classes = mvtecad_dataset(P=P, category=P.one_class_idx, root = "./mvtec_anomaly_detection",  image_size=image_size_)
 else:
