@@ -930,7 +930,7 @@ class WBC_DATASET(torch.utils.data.Dataset):
         labels = df['class label'].to_numpy()
         data_id = df['image ID'].to_numpy()
         data_path = np.array([(path+str("%03d" % p)+'.png') for p in data_id])
-        print("self.labels:",self.labels)
+        print("self.labels:",labels)
         print("len(data_path), data_path[0]", len(data_path), data_path[0])
         self.labels = labels-1
         self.data_path = data_path
