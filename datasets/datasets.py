@@ -667,7 +667,7 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         else:
             train_set = WBC_DATASET(train=True, transform=_transform_224, normal_set=labels)
         print("train_set shapes: ", train_set[0][0].shape, len(train_set))
-        print("test_set shapes: ", test_set[0][0].shape, len(train_set))
+        print("test_set shapes: ", test_set[0][0].shape, len(test_set))
 
 
     elif dataset == 'mvtec-high-var':

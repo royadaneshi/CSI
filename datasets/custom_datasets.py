@@ -921,7 +921,6 @@ if __name__ == '__main__':
             axs[i, j].title.set_text(target)
     plt.show()
 
-
 class WBC_DATASET(torch.utils.data.Dataset):
   'Characterizes a dataset for PyTorch'
   def __init__(self, train=True, transform=None, normal_set=[1, 2], path ="./CELL_MIR/trainig/"):
@@ -931,8 +930,7 @@ class WBC_DATASET(torch.utils.data.Dataset):
         self.labels = df['class label'].to_numpy()
         data_id = df['image ID'].to_numpy()
         self.data_path = np.array([(path+str("%03d" % p)+'.png') for p in data_id])
-        #print("self.labels:",labels)
-        # print("len(data_path), data_path[0]", len(data_path), data_path[0])
+
         self.labels = self.labels-1
         self.data_path = self.data_path
 
@@ -945,20 +943,25 @@ class WBC_DATASET(torch.utils.data.Dataset):
                     normal_idx.append(i)
             training_normal = training_normal + normal_idx[:int(len(normal_idx)*0.8)]
             test_normal = test_normal + normal_idx[int(len(normal_idx)*0.8):]
+        print("number of training_normal:", len(training_normal))
+        print("number of test_normal:", len(test_normal))
+
         # print("1 len(self.labels), len(self.data_path)", len(self.labels), len(self.data_path))
         if train:
             self.labels[training_normal] = 0
             self.labels = self.labels[training_normal]
             self.data_path = self.data_path[training_normal]
-            print("here: ", len(self.data_path), len(self.labels))
         else:
             test_anomaly= np.arange(300)
             test_anomaly = np. setdiff1d(test_anomaly, training_normal+test_normal)
+            print("number of test_anomaly:", len(test_anomaly))
+
             self.labels[test_anomaly] = 1
             self.labels[test_normal] = 0
             test_idx = np.concatenate((test_anomaly,test_normal)).astype(int)
             self.labels = self.labels[test_idx]
             self.data_path = self.data_path[test_idx]
+
         # print("len(self.labels), len(self.data_path)", len(self.labels), len(self.data_path))
         # print(list(zip(self.data_path, self.labels)))
         self.transform = transform
