@@ -941,6 +941,7 @@ class WBC_DATASET(torch.utils.data.Dataset):
             for i, l in enumerate(self.labels):
                 if l in [normal]:
                     normal_idx.append(i)
+            np.random.shuffle(normal_idx)
             training_normal = training_normal + normal_idx[:int(len(normal_idx)*0.8)]
             test_normal = test_normal + normal_idx[int(len(normal_idx)*0.8):]
         print("number of training_normal:", len(training_normal))
