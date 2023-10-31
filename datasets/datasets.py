@@ -719,16 +719,16 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         test_set_ = []
         test_set_.append(normal_test_data)
         for i in range(4):
-        if i not in labels:
-            test_set_.append(data[i])
+            if i not in labels:
+                test_set_.append(data[i])
         test_set__t=np.concatenate(test_set_)
         # len(test_set__t), test_set__t.shape
 
         test_label = []
         test_label.append(normal_test_label)
         for i in range(4):
-        if i not in labels:
-            test_label.append([1]*(data[i].shape[0] ))
+            if i not in labels:
+                test_label.append([1]*(data[i].shape[0] ))
         test_label=np.concatenate(test_label)
         # len(test_label), test_label.shape, test_label
 
