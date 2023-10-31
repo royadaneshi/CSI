@@ -742,11 +742,11 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
             transforms.Resize([image_size[0], image_size[1]]) ,transforms.RandomHorizontalFlip()
         ])
 
-        test_set = MyDataset_Binary(test_set__t, torch.tensor(test_label), transform=orig_transform_224)
+        test_set = MyDataset_Binary(test_set__t.permute(0, 2, 3, 1), torch.tensor(test_label), transform=orig_transform_224)
         if train_transform_cutpasted:
-            train_set = MyDataset_Binary(normal_train_data, torch.tensor(normal_train_label), transform=train_transform_cutpasted)
+            train_set = MyDataset_Binary(normal_train_data.permute(0, 2, 3, 1), torch.tensor(normal_train_label), transform=train_transform_cutpasted)
         else:
-            train_set = MyDataset_Binary(torch.tensor(normal_train_data), torch.tensor(normal_train_label), transform=orig_transform_224)
+            train_set = MyDataset_Binary(normal_train_data.permute(0, 2, 3, 1), torch.tensor(normal_train_label), transform=orig_transform_224)
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
 
