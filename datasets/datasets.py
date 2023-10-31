@@ -269,7 +269,7 @@ def get_exposure_dataloader(P, batch_size = 64, image_size=(224, 224, 3),
             train_transform_cutpasted = transforms.Compose([
                 transforms.Resize((image_size[0], image_size[1])),
                 transforms.ToPILImage(),
-                High_CutPasteUnion(),
+                High_CutPasteUnion(transform = transforms.Compose([transforms.ToTensor(),])),
             ])
         else:
             train_transform_cutpasted = transforms.Compose([
