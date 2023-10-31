@@ -954,8 +954,7 @@ class WBC_DATASET(torch.utils.data.Dataset):
             test_anomaly = np. setdiff1d(test_anomaly, training_normal+test_normal)
             self.labels[test_anomaly] = 1
             self.labels[test_normal] = 0
-            test_idx = np.concatenate((test_anomaly,test_normal))
-            print(test_idx)
+            test_idx = np.concatenate((test_anomaly,test_normal)).astype(int)
             self.labels = self.labels[test_idx]
             self.data_path = self.data_path[test_idx]
         print("len(self.labels), len(self.data_path)", len(self.labels), len(self.data_path))
