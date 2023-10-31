@@ -966,6 +966,7 @@ class WBC_DATASET(torch.utils.data.Dataset):
 
   def __getitem__(self, index):
         'Generates one sample of data'
+        print("self.data_path", self.data_path)
         image_file = self.data_path[index]
         image = Image.open(image_file)
         image = image.convert('RGB')
