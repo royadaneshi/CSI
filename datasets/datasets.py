@@ -694,12 +694,43 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         np.random.shuffle(images3.numpy())
         np.random.shuffle(images4.numpy())
 
-        Normal_data=images1[:int(images1.shape[0]*0.8)]  #Normal 1 
-        Normal_label=[0]*int(images1.shape[0]*0.8)
+        data = [images1, images2, images3, images4]
 
-        test_set_=[images1[int(images1.shape[0]*0.8):],images2 ,images3 ,images4 ]
-        test_label=[0]*(images1.shape[0]-int(images1.shape[0]*0.8))+ [1]*(images2.shape[0] )+[1]*(images3.shape[0] )+[1]*(images4.shape[0] )
-        test_set__t=torch.cat(test_set_)
+        normal_train_data = []
+        normal_train_label = []
+
+        normal_test_data = []
+        normal_test_label = []
+
+        for i in labels:
+            normal_train_data.append(data[i][:int(images1.shape[0]*0.8)])
+            normal_train_label.append([0]*int(images1.shape[0]*0.8))
+
+            normal_test_data.append(data[i][int(images1.shape[0]*0.8):])
+            normal_test_label.append([0]*(images1.shape[0]-int(images1.shape[0]*0.8)))
+
+        normal_train_data = np.concatenate(normal_train_data)
+        normal_train_label = np.concatenate(normal_train_label)
+
+        normal_test_data = torch.concatenate(normal_test_data)
+        normal_test_label = np.concatenate(normal_test_label)
+        # normal_train_data.shape, normal_train_label.shape, normal_test_data.shape, normal_test_label.shape
+
+        test_set_ = []
+        test_set_.append(normal_test_data)
+        for i in range(4):
+        if i not in labels:
+            test_set_.append(data[i])
+        test_set__t=np.concatenate(test_set_)
+        # len(test_set__t), test_set__t.shape
+
+        test_label = []
+        test_label.append(normal_test_label)
+        for i in range(4):
+        if i not in labels:
+            test_label.append([1]*(data[i].shape[0] ))
+        test_label=np.concatenate(test_label)
+        # len(test_label), test_label.shape, test_label
 
         orig_transform_224 = transforms.Compose([
             transforms.Resize([image_size[0], image_size[1]]) 
@@ -707,13 +738,13 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         _transform_224 = transforms.Compose([
             transforms.Resize([image_size[0], image_size[1]]) ,transforms.RandomHorizontalFlip()
         ])
-        test_set = MyDataset_Binary(test_set__t, test_label, transform=orig_transform_224)
-        if train_transform_cutpasted:
-            train_set = MyDataset_Binary(Normal_data, Normal_label, cutpast_transformation=train_transform_cutpasted)        
-        else:
-            train_set = MyDataset_Binary(Normal_data, Normal_label, transform=orig_transform_224)
+
+        test_set = MyDataset_Binary(torch.tensor(test_set__t), torch.tensor(test_label), transform=orig_transform_224)
+        train_set = MyDataset_Binary(torch.tensor(normal_train_data), torch.tensor(normal_train_label), transform=orig_transform_224)
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
+
+
         '''
         n_classes = 2        
         orig_transform_224 = transforms.Compose([
