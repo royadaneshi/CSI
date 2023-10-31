@@ -65,7 +65,10 @@ full_test_set = deepcopy(test_set)  # test set of full classes
 
 if P.dataset=='mvtec-high-var-corruption' or P.dataset=='mvtec-high-var' or P.dataset=="MVTecAD" or P.dataset=="WBC" or P.dataset=='cifar10-versus-100' or P.dataset=='cifar100-versus-10':
     train_set = set_dataset_count(train_set, count=P.main_count)
-    test_set = get_subclass_dataset(P, test_set, classes=[0])
+    if P.dataset=="WBC":
+        test_set = get_subclass_dataset(P, test_set, classes=normal_labels)
+    else:
+        test_set = get_subclass_dataset(P, test_set, classes=[0])
 else:
     train_set = get_subclass_dataset(P, train_set, classes=normal_labels, count=P.main_count)
     test_set = get_subclass_dataset(P, test_set, classes=normal_labels)
@@ -85,7 +88,7 @@ print("Unique labels(test_loader):", get_loader_unique_label(test_loader))
 print("Unique labels(train_loader):", get_loader_unique_label(train_loader))
 
 P.ood_dataset = anomaly_labels
-if P.dataset=='mvtec-high-var-corruption' or P.dataset=="MVTecAD" or P.dataset=="mvtec-high-var" or P.dataset=='cifar10-versus-100' or P.dataset=='cifar100-versus-10':
+if P.dataset=='WBC' or P.dataset=='mvtec-high-var-corruption' or P.dataset=="MVTecAD" or P.dataset=="mvtec-high-var" or P.dataset=='cifar10-versus-100' or P.dataset=='cifar100-versus-10':
     P.ood_dataset = [1]
 print("P.ood_dataset",  P.ood_dataset)
 
