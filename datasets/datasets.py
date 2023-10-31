@@ -651,19 +651,22 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
     elif dataset == 'WBC':
         n_classes = 2        
         orig_transform_224 = transforms.Compose([
-            transforms.Resize([image_size[0], image_size[1]])
+            transforms.Resize([image_size[0], image_size[1]]),
+            transforms.ToTensor(),
         ])
         _transform_224 = transforms.Compose([
-            transforms.Resize([image_size[0], image_size[1]]) ,transforms.RandomHorizontalFlip()
+            transforms.Resize([image_size[0], image_size[1]]),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
         ])
         test_set = WBC_DATASET(train=False, transform=orig_transform_224, normal_set=labels)
         if train_transform_cutpasted:
             train_set = WBC_DATASET(train=True, transform=train_transform_cutpasted, normal_set=labels)
         else:
             train_set = WBC_DATASET(train=True, transform=_transform_224, normal_set=labels)
+        print("train_set shapes: ", train_set[0][0].shape, len(train_set))
+        print("test_set shapes: ", test_set[0][0].shape, len(train_set))
 
-        print("train_set shapes: ", train_set[0][0].shape)
-        print("test_set shapes: ", test_set[0][0].shape)
 
     elif dataset == 'mvtec-high-var':
         n_classes = 2

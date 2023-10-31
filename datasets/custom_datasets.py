@@ -921,34 +921,36 @@ if __name__ == '__main__':
             axs[i, j].title.set_text(target)
     plt.show()
 
+
 class WBC_DATASET(torch.utils.data.Dataset):
   'Characterizes a dataset for PyTorch'
   def __init__(self, train=True, transform=None, normal_set=[1, 2], path ="./CELL_MIR/trainig/"):
         'Initialization'
         np.random.seed(47)
         df=pd.read_csv("./segmentation_WBC/Class Labels of Dataset 1.csv")
-        labels = df['class label'].to_numpy()
+        self.labels = df['class label'].to_numpy()
         data_id = df['image ID'].to_numpy()
-        data_path = np.array([(path+str("%03d" % p)+'.png') for p in data_id])
-        print("self.labels:",labels)
-        print("len(data_path), data_path[0]", len(data_path), data_path[0])
-        self.labels = labels-1
-        self.data_path = data_path
+        self.data_path = np.array([(path+str("%03d" % p)+'.png') for p in data_id])
+        #print("self.labels:",labels)
+        # print("len(data_path), data_path[0]", len(data_path), data_path[0])
+        self.labels = self.labels-1
+        self.data_path = self.data_path
 
         training_normal = []
         test_normal = []
         for normal in normal_set:
             normal_idx = []
-            for i, l in enumerate(labels):
+            for i, l in enumerate(self.labels):
                 if l in [normal]:
-                    normal_idx.append(i) 
+                    normal_idx.append(i)
             training_normal = training_normal + normal_idx[:int(len(normal_idx)*0.8)]
             test_normal = test_normal + normal_idx[int(len(normal_idx)*0.8):]
-
+        # print("1 len(self.labels), len(self.data_path)", len(self.labels), len(self.data_path))
         if train:
             self.labels[training_normal] = 0
             self.labels = self.labels[training_normal]
             self.data_path = self.data_path[training_normal]
+            print("here: ", len(self.data_path), len(self.labels))
         else:
             test_anomaly= np.arange(300)
             test_anomaly = np. setdiff1d(test_anomaly, training_normal+test_normal)
@@ -957,7 +959,7 @@ class WBC_DATASET(torch.utils.data.Dataset):
             test_idx = np.concatenate((test_anomaly,test_normal)).astype(int)
             self.labels = self.labels[test_idx]
             self.data_path = self.data_path[test_idx]
-        print("len(self.labels), len(self.data_path)", len(self.labels), len(self.data_path))
+        # print("len(self.labels), len(self.data_path)", len(self.labels), len(self.data_path))
         # print(list(zip(self.data_path, self.labels)))
         self.transform = transform
   def __len__(self):
@@ -966,11 +968,9 @@ class WBC_DATASET(torch.utils.data.Dataset):
 
   def __getitem__(self, index):
         'Generates one sample of data'
-        print("self.data_path", self.data_path)
         image_file = self.data_path[index]
         image = Image.open(image_file)
         image = image.convert('RGB')
         if self.transform is not None:
             image = self.transform(image)
         return image, self.labels[index]
-
