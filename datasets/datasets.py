@@ -275,8 +275,10 @@ def get_exposure_dataloader(P, batch_size = 64, image_size=(224, 224, 3),
                 transforms.Resize((image_size[0], image_size[1])),
                 CutPasteUnion(transform = transforms.Compose([transforms.ToTensor(),])),
             ])
-        
-        cutpast_train_set, _, _, _ = get_dataset(P, dataset=P.dataset, download=True, image_size=image_size, train_transform_cutpasted=train_transform_cutpasted)
+        if P.dataset=='WBC':
+            cutpast_train_set, _, _, _ = get_dataset(P, dataset=P.dataset, download=True, image_size=image_size, train_transform_cutpasted=train_transform_cutpasted, labels=cls_list)            
+        else:    
+            cutpast_train_set, _, _, _ = get_dataset(P, dataset=P.dataset, download=True, image_size=image_size, train_transform_cutpasted=train_transform_cutpasted)
         print("len(cutpast_train_set) before set_count: ", len(cutpast_train_set))
         if P.dataset=='head-ct' or P.dataset=='mvtec-high-var' or P.dataset=='ucsd' or P.dataset=='WBC' or P.dataset=='cifar100-versus-10' or P.dataset=='cifar10-versus-100':
             cutpast_train_set = set_dataset_count(cutpast_train_set, count=cutpast_count)
