@@ -783,7 +783,7 @@ class MyDataset_Binary(torch.utils.data.Dataset):
   def __getitem__(self, index):
         'Generates one sample of data'
         if self.cutpast_transformation:
-           x = Image.fromarray((np.array(self.x[index]).transpose(1, 2, 0) * 255).astype(np.uint8))
+           # x = Image.fromarray((np.array(self.x[index]).transpose(1, 2, 0) * 255).astype(np.uint8))
            x = self.cutpast_transformation(x)
            y = self.labels[index]
         elif self.transform is None:
