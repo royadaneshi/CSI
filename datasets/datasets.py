@@ -445,6 +445,16 @@ def get_exposure_dataloader(P, batch_size = 64, image_size=(224, 224, 3),
             if len(train_ds_head_ct_fake) > 0:
                 print("number of fake data:", len(train_ds_head_ct_fake), "shape:", train_ds_head_ct_fake[0][0].shape)
             exposureset = torch.utils.data.ConcatDataset([cutpast_train_set, train_ds_head_ct_fake, imagenet_exposure])
+        elif P.dataset == 'WBC':
+            fake_transform = transforms.Compose([
+                            transforms.Resize((image_size[0],image_size[1])),
+                            transforms.RandomHorizontalFlip(),
+                            transforms.ToTensor()
+                        ])
+            wbc_fake_dataset = FakeWBC(count=fake_count, transform=fake_transform)
+            if len(wbc_fake_dataset) > 0:
+                print("number of fake data:", len(wbc_fake_dataset), "shape:", wbc_fake_dataset[0][0].shape)
+            exposureset = torch.utils.data.ConcatDataset([cutpast_train_set, wbc_fake_dataset, imagenet_exposure])
         else:
             exposureset = torch.utils.data.ConcatDataset([cutpast_train_set, imagenet_exposure])
         
@@ -695,7 +705,6 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         np.random.shuffle(images3.numpy())
         np.random.shuffle(images4.numpy())
 
-        labels = [0]
         Normal_data = None 
         data = [images1, images2, images3, images4]
 

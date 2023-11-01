@@ -262,6 +262,26 @@ class FakeMNIST(Dataset):
     def __len__(self):
         return len(self.image_files)
 
+class FakeWBC(Dataset):
+    def __init__(self, root='./', category=0, transform=None, count=6000):
+        self.transform = transform
+        self.image_files = list(np.load(root+"Fake_CELL_type1.npy"))
+        if count<len(self.image_files):
+            self.image_files = self.image_files[:count]
+        else:
+            t = len(self.image_files)
+            for i in range(count-t):
+                self.image_files.append(random.choice(self.image_files[:t]))            
+    def __getitem__(self, index):
+        image = Image.fromarray((self.image_files[index].transpose(1, 2, 0)*255).astype(np.uint8))
+        if self.transform is not None:
+            image = self.transform(image)
+        target = 1
+        return image, target
+    def __len__(self):
+        return len(self.image_files)
+        
+
 class FakeFashionDataset(Dataset):
     def __init__(self, root, category, transform=None, target_transform=None, train=True, count=None):
         self.transform = transform
