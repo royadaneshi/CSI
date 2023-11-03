@@ -640,10 +640,13 @@ class BrainMRI(Dataset):
         if count != -1:
             if count<len(self.image_files):
                 self.image_files = self.image_files[:count]
+                self.labels = self.labels[:count]
+
             else:
                 t = len(self.image_files)
                 for i in range(count-t):
                     self.image_files.append(random.choice(self.image_files[:t]))
+                    self.labels.append(random.choice(self.labels[:t]))
 
     def __getitem__(self, index):
         image_file = self.image_files[index]
