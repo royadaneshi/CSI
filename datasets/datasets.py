@@ -987,6 +987,7 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         test_set = datasets.SVHN(DATA_PATH, split='test', download=download, transform=test_transform)
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
+    
     elif dataset == 'high-variational-brain-tumor':
         head_ct_cnt = 2000
         brain_tumor_cnt = 2000
@@ -1007,6 +1008,7 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
             transforms.Grayscale(num_output_channels=3),
             transforms.ToTensor(),
         ])
+        import pandas as pd
         labels_df = pd.read_csv('./head-ct/labels.csv')
         labels_ = np.array(labels_df[' hemorrhage'].tolist())
         images = np.array(sorted(glob('./head-ct/head_ct/head_ct/*.png')))
