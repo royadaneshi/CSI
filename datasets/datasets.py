@@ -1031,9 +1031,9 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
                         ]), p=0.3),
                         High_CutPasteUnion(),
                     ])
-            head_ct_train_set = HEAD_CT_DATASET(image_path=list(train_image), labels=train_label, transform=train_transform_cutpasted, count=head_ct_cnt)
+            head_ct_train_set = HEAD_CT_DATASET(image_path=list(train_image), labels=list(train_label), transform=train_transform_cutpasted, count=head_ct_cnt)
         else:
-            head_ct_train_set = HEAD_CT_DATASET(image_path=list(train_image), labels=train_label, transform=train_transform, count=head_ct_cnt)
+            head_ct_train_set = HEAD_CT_DATASET(image_path=list(train_image), labels=list(train_label), transform=train_transform, count=head_ct_cnt)
         head_ct_test_set = HEAD_CT_DATASET(image_path=test_image, labels=test_label, transform=test_transform)
       
 
