@@ -147,8 +147,8 @@ class CutPaste3Way(object):
 class High_CutPasteUnion(object):
     def __init__(self, **kwags):
       kwags1={
-        "width":[20,30],
-        "height":[20,35],
+        "width":[25,45],
+        "height":[25,45],
         "transform": transforms.Compose([transforms.ToTensor(),])  
       }
       kwags2={

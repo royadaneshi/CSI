@@ -987,6 +987,106 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         test_set = datasets.SVHN(DATA_PATH, split='test', download=download, transform=test_transform)
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
+    elif dataset == 'high-variational-brain-tumor':
+        head_ct_cnt = 2000
+        brain_tumor_cnt = 2000
+        brain_mri_bigbrain_cnt = 2000
+        
+        n_classes = 2
+        train_transform = transforms.Compose([
+            transforms.Resize((image_size[0], image_size[1])),
+            # transforms.CenterCrop(224),
+            transforms.Grayscale(num_output_channels=1),
+            transforms.Grayscale(num_output_channels=3),
+            transforms.ToTensor(),
+        ])
+        test_transform = transforms.Compose([
+            transforms.Resize((image_size[0], image_size[1])),
+            # transforms.CenterCrop(224),
+            transforms.Grayscale(num_output_channels=1),
+            transforms.Grayscale(num_output_channels=3),
+            transforms.ToTensor(),
+        ])
+        labels_df = pd.read_csv('./head-ct/labels.csv')
+        labels_ = np.array(labels_df[' hemorrhage'].tolist())
+        images = np.array(sorted(glob('./head-ct/head_ct/head_ct/*.png')))
+        np.random.seed  (1225)
+        indicies = np.random.permutation(100)
+        train_true_idx, test_true_idx = indicies[:75]+ 100, indicies[75:]+ 100
+        train_false_idx, test_false_idx = indicies[:75], indicies[75:]
+        train_idx, test_idx = train_true_idx, np.concatenate((test_true_idx, test_false_idx, train_false_idx))
+
+        train_image, train_label = images[train_idx], labels_[train_idx]
+        test_image, test_label = images[test_idx], labels_[test_idx]
+
+        print("train_image.shape, test_image.shape: ", train_image.shape, test_image.shape)
+        print("train_label.shape, test_label.shape: ", train_label.shape, test_label.shape)
+        if train_transform_cutpasted:
+            train_transform_cutpasted = transforms.Compose([
+                        transforms.Resize((image_size[0], image_size[1])),
+                        transforms.Grayscale(num_output_channels=1),
+                        transforms.Grayscale(num_output_channels=3),
+                        transforms.RandomRotation((90, 270)),
+                        High_CutPasteUnion(),
+                    ])
+            head_ct_train_set = HEAD_CT_DATASET(image_path=list(train_image), labels=train_label, transform=train_transform_cutpasted, count=head_ct_cnt)
+        else:
+            head_ct_train_set = HEAD_CT_DATASET(image_path=list(train_image), labels=train_label, transform=train_transform, count=head_ct_cnt)
+        head_ct_test_set = HEAD_CT_DATASET(image_path=test_image, labels=test_label, transform=test_transform)
+      
+
+        n_classes = 2
+        transform = transforms.Compose([
+            transforms.Resize((image_size[0], image_size[1])),
+            transforms.ToTensor(),
+        ])
+        if train_transform_cutpasted:
+            train_transform_cutpasted = transforms.Compose([
+                        transforms.Resize((image_size[0], image_size[1])),
+                        transforms.Grayscale(num_output_channels=1),
+                        transforms.Grayscale(num_output_channels=3),
+                        # CutPasteNormal(transform = transforms.Compose([transforms.ToTensor(),])),
+                        High_CutPasteUnion(),
+                ])
+            tumor_detc_train_set = TumorDetection(transform=train_transform_cutpasted, train=True, count=brain_tumor_cnt)
+        else:
+            tumor_detc_train_set = TumorDetection(transform=transform, train=True, count=brain_tumor_cnt)
+        tumor_detc_test_set = TumorDetection(transform=transform, train=False)
+        
+
+
+
+        transform = transforms.Compose([
+            transforms.Resize((image_size[0], image_size[1])),
+            transforms.ToTensor(),
+            transforms.Grayscale(num_output_channels=3)
+        ])
+        transform_aug = transforms.Compose([
+            transforms.Resize((image_size[0], image_size[1])),
+            transforms.ToTensor(),
+            transforms.Grayscale(num_output_channels=3),    
+            transforms.RandomHorizontalFlip(),
+        ])
+
+        if train_transform_cutpasted:
+            train_transform_cutpasted = transforms.Compose([
+                transforms.Resize((image_size[0], image_size[1])),
+                transforms.Grayscale(num_output_channels=3),    
+                transforms.RandomHorizontalFlip(),
+                High_CutPasteUnion(),
+            ])
+            BrainMRI_train_set = BrainMRI(train_transform_cutpasted, train=True, count=brain_mri_bigbrain_cnt)
+        else:
+            BrainMRI_train_set = BrainMRI(transform_aug, train=True, count=brain_mri_bigbrain_cnt)
+        BrainMRI_test_set=BrainMRI(transform, train=False)
+
+        
+        train_set = torch.utils.data.ConcatDataset([BrainMRI_train_set, tumor_detc_train_set, head_ct_train_set])
+        test_set = torch.utils.data.ConcatDataset([BrainMRI_test_set, tumor_detc_test_set, head_ct_test_set])
+
+        print("train_set shapes: ", train_set[0][0].shape)
+        print("test_set shapes: ", test_set[0][0].shape)
+        print("len(test_set), len(train_set): ", len(test_set), len(train_set))
 
     elif dataset == 'svhn':
         assert test_only and image_size is not None
@@ -1096,7 +1196,7 @@ def get_superclass_list(dataset):
         return WBC_SUPERCLASS
     elif dataset == 'breastmnist':
         return breastmnist_SUPERCLASS
-    elif dataset == 'Tomor_Detection':
+    elif dataset=='Tomor_Detection' or dataset=='high-variational-brain-tumor':
         return TUMOR_BRAIN_SUPERCLASS
     elif dataset == 'MVTecAD':
         return MVTecAD_SUPERCLASS

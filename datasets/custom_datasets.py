@@ -631,6 +631,54 @@ class TumorDetection(torch.utils.data.Dataset):
         return new_image_files
 
 
+class BrainMRI(Dataset):
+    def __init__(self, transform=None, target_transform=None, train=True, normal=True, normal_only=False, count=None):
+        self.transform = transform
+        if train:
+            self.image_files = glob(
+                os.path.join( "./Training", "notumor", "*.jpg")
+            )
+        else:
+          image_files = glob(os.path.join( "./Testing", "*", "*.jpg"))
+          normal_image_files = glob(os.path.join( "./Testing", "notumor", "*.jpg"))
+          anomaly_image_files = list(set(image_files) - set(normal_image_files))
+          self.image_files = image_files
+
+        if count is not None:
+            if count > len(self.image_files):
+                self.image_files = self._oversample(count)
+            else:
+                self.image_files  = self._undersample(count)
+        self.image_files.sort(key=lambda y: y.lower())
+        self.train = train
+
+    def __getitem__(self, index):
+        image_file = self.image_files[index]
+        image = Image.open(image_file)
+        image = image.convert('RGB')
+        if self.transform is not None:
+            image = self.transform(image)
+
+        if os.path.dirname(image_file).endswith("notumor"):
+            target = 0
+        else:
+            target = 1
+        return image, target
+    def __len__(self):
+        return len(self.image_files)
+
+    def _oversample(self, count):
+        num_extra_samples = count - len(self.image_files)
+        extra_image_files = [random.choice(self.image_files) for _ in range(num_extra_samples)]
+        return self.image_files + extra_image_files
+
+    def _undersample(self, count):
+        indices = random.sample(range(len(self.image_files)), count)
+        new_image_files = [self.image_files[idx] for idx in indices]
+        return new_image_files
+
+
+
 class AdaptiveExposure(Dataset):
     def __init__(self, root, transform, count=None):
         super(AdaptiveExposure, self).__init__()
