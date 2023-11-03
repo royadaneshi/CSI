@@ -990,22 +990,22 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
     
     elif dataset == 'high-variational-brain-tumor':
         head_ct_cnt = 2000
-        brain_tumor_cnt = 2000
-        brain_mri_bigbrain_cnt = 2000
+        tumor_detection_cnt = 2000
+        brain_mri_cnt = 2000
         
         n_classes = 2
         train_transform = transforms.Compose([
             transforms.Resize((image_size[0], image_size[1])),
             # transforms.CenterCrop(224),
-            transforms.Grayscale(num_output_channels=1),
-            transforms.Grayscale(num_output_channels=3),
+            # transforms.Grayscale(num_output_channels=1),
+            # transforms.Grayscale(num_output_channels=3),
             transforms.ToTensor(),
         ])
         test_transform = transforms.Compose([
             transforms.Resize((image_size[0], image_size[1])),
             # transforms.CenterCrop(224),
-            transforms.Grayscale(num_output_channels=1),
-            transforms.Grayscale(num_output_channels=3),
+            # transforms.Grayscale(num_output_channels=1),
+            # transforms.Grayscale(num_output_channels=3),
             transforms.ToTensor(),
         ])
         import pandas as pd
@@ -1026,9 +1026,9 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         if train_transform_cutpasted:
             train_transform_cutpasted = transforms.Compose([
                         transforms.Resize((image_size[0], image_size[1])),
-                        transforms.Grayscale(num_output_channels=1),
-                        transforms.Grayscale(num_output_channels=3),
-                        transforms.RandomRotation((90, 270)),
+                        transforms.RandomApply(torch.nn.ModuleList([
+                            transforms.RandomRotation((90, 270)),
+                        ]), p=0.3),
                         High_CutPasteUnion(),
                     ])
             head_ct_train_set = HEAD_CT_DATASET(image_path=list(train_image), labels=train_label, transform=train_transform_cutpasted, count=head_ct_cnt)
@@ -1044,45 +1044,40 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         ])
         if train_transform_cutpasted:
             train_transform_cutpasted = transforms.Compose([
-                        transforms.Resize((image_size[0], image_size[1])),
-                        transforms.Grayscale(num_output_channels=1),
-                        transforms.Grayscale(num_output_channels=3),
-                        # CutPasteNormal(transform = transforms.Compose([transforms.ToTensor(),])),
-                        High_CutPasteUnion(),
+                    transforms.Resize((image_size[0], image_size[1])),
+                    High_CutPasteUnion(),
                 ])
-            tumor_detc_train_set = TumorDetection(transform=train_transform_cutpasted, train=True, count=brain_tumor_cnt)
+            tumor_detc_train_set = TumorDetection(transform=train_transform_cutpasted, train=True, count=tumor_detection_cnt)
         else:
-            tumor_detc_train_set = TumorDetection(transform=transform, train=True, count=brain_tumor_cnt)
+            tumor_detc_train_set = TumorDetection(transform=transform, train=True, count=tumor_detection_cnt)
         tumor_detc_test_set = TumorDetection(transform=transform, train=False)
         
 
+        normal_files = sorted(glob('./brain_tumor_dataset/no/*'))
+        test_normal = normal_files[:25]
+        train_normal = normal_files[25:]
+        abnormal_files = sorted(glob('./brain_tumor_dataset/yes/*'))
 
+        train_path = train_normal
+        train_label = [0]*len(train_normal)
+        test_path = test_normal + abnormal_files
+        test_label = [0]*len(test_normal)  + [1]*len(abnormal_files)
 
         transform = transforms.Compose([
             transforms.Resize((image_size[0], image_size[1])),
             transforms.ToTensor(),
-            transforms.Grayscale(num_output_channels=3)
         ])
-        transform_aug = transforms.Compose([
-            transforms.Resize((image_size[0], image_size[1])),
-            transforms.ToTensor(),
-            transforms.Grayscale(num_output_channels=3),    
-            transforms.RandomHorizontalFlip(),
-        ])
-
         if train_transform_cutpasted:
-            train_transform_cutpasted = transforms.Compose([
+            train_transform_cutpasted =  transforms.Compose([
                 transforms.Resize((image_size[0], image_size[1])),
-                transforms.Grayscale(num_output_channels=3),    
-                transforms.RandomHorizontalFlip(),
                 High_CutPasteUnion(),
             ])
-            BrainMRI_train_set = BrainMRI(train_transform_cutpasted, train=True, count=brain_mri_bigbrain_cnt)
+            BrainMRI_train_set = BrainMRI(image_path=train_path, labels=train_label, transform=train_transform_cutpasted, count=brain_mri_cnt)
         else:
-            BrainMRI_train_set = BrainMRI(transform_aug, train=True, count=brain_mri_bigbrain_cnt)
-        BrainMRI_test_set=BrainMRI(transform, train=False)
+            BrainMRI_train_set = BrainMRI(image_path=train_path, labels=train_label, transform=transform, count=brain_mri_cnt)
 
-        
+        BrainMRI_test_set = BrainMRI(image_path=test_path, labels=test_label, transform=transform)
+
         train_set = torch.utils.data.ConcatDataset([BrainMRI_train_set, tumor_detc_train_set, head_ct_train_set])
         test_set = torch.utils.data.ConcatDataset([BrainMRI_test_set, tumor_detc_test_set, head_ct_test_set])
 
