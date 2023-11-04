@@ -35,6 +35,7 @@ SVHN_SUPERCLASS = list(range(10))
 FashionMNIST_SUPERCLASS = list(range(10))
 MVTecAD_SUPERCLASS = list(range(2))
 HEAD_CT_SUPERCLASS = list(range(2))
+ART_BENCH_SUPERCLASS = list(range(10))
 MVTEC_HV_SUPERCLASS = list(range(2))
 breastmnist_SUPERCLASS = list(range(2))
 CIFAR100_SUPERCLASS = list(range(20))
@@ -516,6 +517,16 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         test_set = datasets.CIFAR10(DATA_PATH, train=False, download=download, transform=test_transform)
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
+    elif dataset == 'ArtBench':
+        n_classes = 10
+        if train_transform_cutpasted:
+            train_set = ArtBench10(root=DATA_PATH, train=True, download=True, transform=train_transform_cutpasted)
+        else:
+            train_set = ArtBench10(root=DATA_PATH, train=True, download=True, transform=train_transform)
+        train_set = ArtBench10(root=DATA_PATH, train=False, download=True, transform=test_transform)
+        print("train_set shapes: ", train_set[0][0].shape)
+        print("test_set shapes: ", test_set[0][0].shape)
+        
     elif dataset == 'dior':
         transform = transforms.Compose([
             transforms.Resize((image_size[0], image_size[1])),
@@ -1202,6 +1213,8 @@ def get_superclass_list(dataset):
         return TUMOR_BRAIN_SUPERCLASS
     elif dataset == 'MVTecAD':
         return MVTecAD_SUPERCLASS
+    elif dataset == 'ArtBench':
+        return ART_BENCH_SUPERCLASS
     elif dataset == 'head-ct':
         return HEAD_CT_SUPERCLASS
     elif dataset == 'mvtec-high-var' or dataset == 'mvtec-high-var-corruption':
