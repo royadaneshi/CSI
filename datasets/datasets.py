@@ -989,9 +989,14 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         print("test_set shapes: ", test_set[0][0].shape)
     
     elif dataset == 'high-variational-brain-tumor':
-        head_ct_cnt = 2000
-        tumor_detection_cnt = 2000
-        brain_mri_cnt = 2000
+        if eval:
+            head_ct_cnt = -1
+            tumor_detection_cnt = None
+            brain_mri_cnt = -1
+        else:
+            head_ct_cnt = 2000
+            tumor_detection_cnt = 2000
+            brain_mri_cnt = 2000
         
         n_classes = 2
         train_transform = transforms.Compose([
