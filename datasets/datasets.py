@@ -523,7 +523,7 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
             train_set = ArtBench10(root=DATA_PATH, train=True, download=True, transform=train_transform_cutpasted)
         else:
             train_set = ArtBench10(root=DATA_PATH, train=True, download=True, transform=train_transform)
-        train_set = ArtBench10(root=DATA_PATH, train=False, download=True, transform=test_transform)
+        test_set = ArtBench10(root=DATA_PATH, train=False, download=True, transform=test_transform)
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
         
