@@ -46,6 +46,7 @@ CIFAR10_VER_CIFAR100_SUPERCLASS = list(range(2))
 DTD_SUPERCLASS = list(range(46))
 WBC_SUPERCLASS = list(range(2))
 DIOR_SUPERCLASS = list(range(19))
+ISIC2018_SUPERCLASS = list(range(2))
 
 def sparse2coarse(targets):
     coarse_labels = np.array(
@@ -1100,7 +1101,40 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
         print("len(test_set), len(train_set): ", len(test_set), len(train_set))
+    elif dataset == 'ISIC2018':
+        train_path = glob('./dataset/train/NORMAL/*')
+        train_label = [0]*len(train_path)
 
+        test_anomaly_path = glob('./dataset/test/ABNORMAL/*')
+        test_anomaly_label = [1]*len(test_anomaly_path)
+        test_normal_path = glob('./dataset/test/NORMAL/*')
+        test_normal_label = [0]*len(test_normal_path)
+
+        test_label = test_anomaly_label + test_normal_label
+        test_path = test_anomaly_path + test_normal_path
+
+        transform = transforms.Compose([
+            transforms.Resize((224, 224)),
+            transforms.ToTensor(),
+        ])
+        if train_transform_cutpasted:
+            train_transform_cutpasted = transforms.Compose([
+                transforms.Resize((224, 224)),
+                CutPasteScar(),
+                CutPasteScar(),
+                CutPasteScar(),
+                CutPasteScar(),
+                CutPasteUnion(transform = transforms.Compose([transforms.ToTensor(),])),
+            ])
+            train_set = ISIC2018(image_path=train_path, labels=train_label, transform=train_transform_cutpasted)
+        else:
+            train_set = ISIC2018(image_path=train_path, labels=train_label, transform=transform)
+
+        test_set = ISIC2018(image_path=test_path, labels=test_label, transform=transform)
+
+        print("train_set shapes: ", train_set[0][0].shape)
+        print("test_set shapes: ", test_set[0][0].shape)
+        print("len(test_set), len(train_set): ", len(test_set), len(train_set))
     elif dataset == 'svhn':
         assert test_only and image_size is not None
         test_set = datasets.SVHN(DATA_PATH, split='test', download=download, transform=test_transform)
@@ -1229,6 +1263,8 @@ def get_superclass_list(dataset):
         return CIFAR100_SUPERCLASS
     elif dataset == 'ucsd':
         return UCSD_SUPERCLASS
+    elif dataset == 'ISIC2018':
+        return ISIC2018_SUPERCLASS
     elif dataset == 'imagenet':
         return IMAGENET_SUPERCLASS
     elif dataset == 'dior':
