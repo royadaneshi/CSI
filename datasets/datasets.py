@@ -1130,7 +1130,6 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
             '''
             train_transform_cutpasted = transforms.Compose([
                 transforms.Resize((image_size[0], image_size[1])),
-                transforms.Resize((224, 224)),
                 CutPasteUnion(),
                 CutPasteUnion(transform = transforms.Compose([transforms.ToTensor(),])),
             ])
