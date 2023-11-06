@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-from models.resnet import ResNet18, ResNet34, ResNet50, Pretrain_ResNet18_Model, Pretrain_ResNet152_Model, Pretrain_ResNet152_Corruption_Model, Pretrain_ResNet18_Corruption_Model, Pretrain_Wide_ResNet_Model
+from models.resnet import ResNet18, ResNet34, ResNet50, Pretrain_ResNet18_Model, Pretrain_ResNet152_Model, Pretrain_ResNet152_Corruption_Model, Pretrain_ResNet18_Corruption_Model, Pretrain_Wide_ResNet_Model, Pretrain_ConvNext_Model
 from models.resnet_imagenet import resnet18, resnet50
 from models.wide_resnet import wide_resnet34_5
 import models.transform_layers as TL
@@ -87,6 +87,8 @@ def get_classifier(mode, n_classes=10, activation='relu', std=1.0, mean=0.0, noi
         classifier = resnet50(num_classes=n_classes)
     elif mode == 'wide_resnet34_5':
         classifier = wide_resnet34_5(num_classes=n_classes)
+    elif mode == 'conv_next':
+        classifier = Pretrain_ConvNext_Model(num_classes=n_classes)
     else:
         raise NotImplementedError()
 

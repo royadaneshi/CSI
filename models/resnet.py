@@ -344,6 +344,35 @@ class Pretrain_ResNet152_Corruption(BaseModel):
         return z_n
 
 
+class Pretrain_ConvNext(BaseModel):
+    def __init__(self, block, num_blocks, num_classes=10):
+        last_dim = 1024 * block.expansion
+        super(Pretrain_ConvNext, self).__init__(last_dim, num_classes)
+    
+        self.in_planes = 64
+        self.last_dim = last_dim
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        
+        mu = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1).cuda()
+        std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1).cuda()
+        self.norm = lambda x: (x - mu) / std
+        self.backbone = models.convnext_base(pretrained=pretrained)
+        self.backbone.classifier = torch.nn.Identity()
+        
+        i = 0
+        num = 260
+        for param in self.backbone.parameters():
+            if i<num:
+                param.requires_grad = False
+            i+=1
+
+    def penultimate(self, x, all_features=False):
+        x = self.norm(x)
+        z1 = self.backbone(x)
+        z_n = F.normalize(z1, dim=-1)
+        return z_n
+
+
 def ResNet18(num_classes, activation=None):
     return ResNet(BasicBlock, [2,2,2,2], num_classes=num_classes, activation=activation)
 
@@ -368,3 +397,7 @@ def Pretrain_ResNet152_Corruption_Model(num_classes):
 
 def Pretrain_ResNet18_Corruption_Model(num_classes, std=1.0, mean=0.0, noise_scale=0.1, probability=0.5):
     return Pretrain_ResNet18_Corruption(BasicBlock, [2,2,2,2], num_classes=num_classes, std=std, mean=mean, noise_scale=noise_scale, probability=probability)
+
+
+def Pretrain_ConvNext_Model(num_classes):
+    return Pretrain_ConvNext(BasicBlock, [2,2,2,2], num_classes=num_classes)
