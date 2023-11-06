@@ -484,7 +484,7 @@ class FakeDTD(Dataset):
         '''
 
     def __getitem__(self, index):
-        image = Image.fromarray(self.image_files[index])
+        image = Image.fromarray((self.image_files[index].transpose(1, 2, 0)*255).astype(np.uint8))
         if self.transform is not None:
             image = self.transform(image)
         return image, -1
