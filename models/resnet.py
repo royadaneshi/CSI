@@ -346,7 +346,7 @@ class Pretrain_ResNet152_Corruption(BaseModel):
 
 class Pretrain_ConvNext(BaseModel):
     def __init__(self, block, num_blocks, num_classes=10):
-        last_dim = 1024 * block.expansion
+        last_dim = 2048 * block.expansion
         super(Pretrain_ConvNext, self).__init__(last_dim, num_classes)
     
         self.in_planes = 64
