@@ -1143,6 +1143,109 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
         print("len(test_set), len(train_set): ", len(test_set), len(train_set))
+    elif dataset == 'cifar100-versus-other-eval':
+        n_classes = 20
+        cifar_transform = transforms.Compose([
+                transforms.Resize((32, 32)),
+                transforms.ToTensor(),
+            ])
+        if P.outlier_dataset == 'mnist' or P.outlier_dataset == 'fashion-mnist':
+            transform = transforms.Compose([
+                transforms.Resize((32, 32)),
+                transforms.Grayscale(num_output_channels=3),
+                transforms.ToTensor(),
+            ])
+        else:
+            transform = transforms.Compose([
+                transforms.Resize((32, 32)),
+                transforms.ToTensor(),
+            ])
+
+        train_set = datasets.CIFAR100('./data', train=True, download=True, transform=cifar_transform)
+        train_set.targets = sparse2coarse(train_set.targets)
+        # for i in range(len(train_set)):
+        #    train_set.targets[i] = 0
+        
+
+        if P.outlier_dataset == 'svhn':
+            anomaly_testset = datasets.SVHN('./data', split='test', download=True, transform=transform)
+            for i in range(len(anomaly_testset)):
+                anomaly_testset.labels[i] = 1
+        elif P.outlier_dataset == 'mnist':
+            anomaly_testset = datasets.MNIST('./data', train=False, download=True, transform=transform)
+            for i in range(len(anomaly_testset)):
+                anomaly_testset.targets[i] = 1
+        elif P.outlier_dataset == 'fashion-mnist':
+            anomaly_testset = datasets.FashionMNIST('./data', train=False, download=True, transform=transform)
+            for i in range(len(anomaly_testset)):
+                anomaly_testset.targets[i] = 1
+        elif P.outlier_dataset == 'imagenet30':
+            transform = transforms.Compose([
+                transforms.Resize((224, 224)),
+                transforms.ToTensor(),
+            ])
+            anomaly_testset = datasets.ImageFolder('./one_class_test', transform=transform)
+            for i in range(len(anomaly_testset)):
+                anomaly_testset.targets[i] = 1
+
+
+        normal_testset = datasets.CIFAR100('./data', train=False, download=True, transform=cifar_transform)
+        for i in range(len(normal_testset)):
+            normal_testset.targets[i] = 0
+        test_set = torch.utils.data.ConcatDataset([anomaly_testset, normal_testset]) 
+        print("train_set shapes: ", train_set[0][0].shape)
+        print("test_set shapes: ", test_set[0][0].shape)
+
+
+    elif dataset == 'cifar10-versus-other-eval':
+        n_classes = 2
+        cifar_transform = transforms.Compose([
+                transforms.Resize((32, 32)),
+                transforms.ToTensor(),
+            ])
+        if P.outlier_dataset == 'mnist' or P.outlier_dataset == 'fashion-mnist':
+            transform = transforms.Compose([
+                transforms.Resize((32, 32)),
+                transforms.Grayscale(num_output_channels=3),
+                transforms.ToTensor(),
+            ])
+        else:
+            transform = transforms.Compose([
+                transforms.Resize((32, 32)),
+                transforms.ToTensor(),
+            ])
+        train_set = datasets.CIFAR10('./data', train=True, download=True, transform=cifar_transform)
+
+        if P.outlier_dataset == 'svhn':
+            anomaly_testset = datasets.SVHN('./data', split='test', download=True, transform=transform)
+            for i in range(len(anomaly_testset)):
+                anomaly_testset.labels[i] = 1
+        elif P.outlier_dataset == 'mnist':
+            anomaly_testset = datasets.MNIST('./data', train=False, download=True, transform=transform)
+            for i in range(len(anomaly_testset)):
+                anomaly_testset.targets[i] = 1
+        elif P.outlier_dataset == 'fashion-mnist':
+            anomaly_testset = datasets.FashionMNIST('./data', train=False, download=True, transform=transform)
+            for i in range(len(anomaly_testset)):
+                anomaly_testset.targets[i] = 1
+        elif P.outlier_dataset == 'imagenet30':
+            transform = transforms.Compose([
+                transforms.Resize((224, 224)),
+                transforms.ToTensor(),
+            ])
+            anomaly_testset = datasets.ImageFolder('./one_class_test', transform=transform)
+            for i in range(len(anomaly_testset)):
+                anomaly_testset.targets[i] = 1
+        
+
+        normal_testset = datasets.CIFAR10('./data', train=False, download=True, transform=cifar_transform)
+        for i in range(len(normal_testset)):
+            normal_testset.targets[i] = 0
+        
+        test_set = torch.utils.data.ConcatDataset([anomaly_testset, normal_testset]) 
+        print("train_set shapes: ", train_set[0][0].shape)
+        print("test_set shapes: ", test_set[0][0].shape)
+
     elif dataset == 'svhn':
         assert test_only and image_size is not None
         test_set = datasets.SVHN(DATA_PATH, split='test', download=download, transform=test_transform)
@@ -1257,7 +1360,7 @@ def get_superclass_list(dataset):
         return MVTecAD_SUPERCLASS
     elif dataset == 'ArtBench':
         return ART_BENCH_SUPERCLASS
-    elif dataset == 'head-ct':
+    elif dataset == 'head-ct' or dataset=='cifar100-versus-other-eval' or dataset=='cifar10-versus-other-eval':
         return HEAD_CT_SUPERCLASS
     elif dataset == 'mvtec-high-var' or dataset == 'mvtec-high-var-corruption':
         return MVTEC_HV_SUPERCLASS
