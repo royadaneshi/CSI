@@ -458,6 +458,40 @@ class FakeCIFAR100(Dataset):
         return len(self.image_files)
 
 
+class FakeDTD(Dataset):
+    def __init__(self, root, category, transform=None, target_transform=None, train=True, count=2500):
+        self.transform = transform
+        self.image_files = []
+        for i in range(len(category)):
+            img_files = list(np.load(f"./DTD_{category[i]}_X.npy"))
+            if count[i]<len(img_files):
+                img_files = img_files[:count[i]]
+            else:
+                t = len(img_files)
+                for i in range(count[i]-t):
+                    img_files.append(random.choice(img_files[:t]))            
+            self.image_files += img_files
+        '''
+        for i in range(len(category)):
+            img_files = list(np.load("./cifar100_training_gen_data.npy")[2500*i:2500*(i+1)])
+            if count[i]<len(img_files):
+                img_files = img_files[:count[i]]
+            else:
+                t = len(img_files)
+                for i in range(count[i]-t):
+                    img_files.append(random.choice(img_files[:t]))            
+            self.image_files += img_files
+        '''
+
+    def __getitem__(self, index):
+        image = Image.fromarray(self.image_files[index])
+        if self.transform is not None:
+            image = self.transform(image)
+        return image, -1
+    def __len__(self):
+        return len(self.image_files)
+
+
 
 class UCSDDataset(Dataset):
     def __init__(self, root, dataset='ped1', is_normal=True, transform=None, target_transform=None, download=False):

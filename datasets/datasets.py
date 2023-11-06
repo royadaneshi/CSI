@@ -267,7 +267,7 @@ def get_exposure_dataloader(P, batch_size = 64, image_size=(224, 224, 3),
                 transforms.RandomRotation((90, 270)),
                 CutPasteNormal(transform = transforms.Compose([transforms.ToTensor(),])),
             ])
-        elif P.dataset=='WBC':
+        elif P.dataset=='WBC' or P.dataset=='dtd':
             train_transform_cutpasted = transforms.Compose([
                 transforms.Resize((image_size[0], image_size[1])),
                 transforms.ToPILImage(),
@@ -379,6 +379,21 @@ def get_exposure_dataloader(P, batch_size = 64, image_size=(224, 224, 3),
                 print("number of fake data:", len(train_ds_cifar100_fake), "shape:", train_ds_cifar100_fake[0][0].shape)
             exposureset = torch.utils.data.ConcatDataset([cutpast_train_set, train_ds_cifar100_fake, imagenet_exposure])
         
+        elif P.dataset=="dtd":
+            fake_transform = transforms.Compose([
+                transforms.Resize((image_size[0],image_size[1])),
+                transforms.RandomHorizontalFlip(),
+                transforms.ToTensor()
+            ])
+            fake_root='./'
+            fc = [int(fake_count / len(cls_list)) for i in range(len(cls_list))]
+            if sum(fc) != fake_count:
+                fc[0] += abs(fake_count - sum(fc))
+            train_ds_dtd_fake = FakeDTD(root=fake_root, category=cls_list, transform=fake_transform, count=fc)
+            if len(train_ds_dtd_fake) > 0:
+                print("number of fake data:", len(train_ds_dtd_fake), "shape:", train_ds_dtd_fake[0][0].shape)
+            exposureset = torch.utils.data.ConcatDataset([cutpast_train_set, train_ds_dtd_fake, imagenet_exposure])
+
         elif P.dataset=="svhn-10":
             fake_transform = transforms.Compose([
                 transforms.Resize((image_size[0],image_size[1])),
