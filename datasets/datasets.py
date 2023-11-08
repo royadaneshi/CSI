@@ -1202,13 +1202,13 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
             for i in range(len(anomaly_testset)):
                 anomaly_testset.targets[i] = 1
         elif P.outlier_dataset == 'imagenet30':
+            n_classes = 2
             transform = transforms.Compose([
-                transforms.Resize((224, 224)),
+                transforms.Resize((32, 32)),
                 transforms.ToTensor(),
             ])
-            anomaly_testset = datasets.ImageFolder('./one_class_test', transform=transform)
-            for i in range(len(anomaly_testset)):
-                anomaly_testset.targets[i] = 1
+            image_path = glob('./one_class_test/*/*/*')
+            anomaly_testset = ImageNet30_Dataset(image_path=image_path, labels=[1]*len(image_path), transform=transform)
 
 
         normal_testset = datasets.CIFAR100('./data', train=False, download=True, transform=cifar_transform)
@@ -1252,13 +1252,13 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
                 anomaly_testset.targets[i] = 1
         elif P.outlier_dataset == 'imagenet30':
             transform = transforms.Compose([
-                transforms.Resize((224, 224)),
+                transforms.Resize((32, 32)),
                 transforms.ToTensor(),
             ])
-            anomaly_testset = datasets.ImageFolder('./one_class_test', transform=transform)
-            for i in range(len(anomaly_testset)):
-                anomaly_testset.targets[i] = 1
-        
+            image_path = glob('./one_class_test/*/*/*')
+            anomaly_testset = ImageNet30_Dataset(image_path=image_path, labels=[1]*len(image_path), transform=transform)
+
+
 
         normal_testset = datasets.CIFAR10('./data', train=False, download=True, transform=cifar_transform)
         for i in range(len(normal_testset)):
