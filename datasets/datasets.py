@@ -792,6 +792,7 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
             train_set = MyDataset_Binary(normal_train_data, normal_train_label, transform=orig_transform_224)
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
+        print("len(train_set), len(test_set): ", len(train_set), len(test_set))
 
 
         '''
