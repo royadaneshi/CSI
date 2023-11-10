@@ -1270,7 +1270,7 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
     elif dataset == 'stanford-cars':
         import pandas as pd
         from scipy.io import loadmat
-
+        n_classes = 20
         cars_train_annos = loadmat('./stanford_cars/devkit/cars_train_annos.mat')
         frame = [[i.flat[0] for i in line] for line in cars_train_annos['annotations'][0]]
         columns = ['bbox_x1', 'bbox_y1', 'bbox_x2', 'bbox_y2', 'class', 'fname']
