@@ -1267,7 +1267,43 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         test_set = torch.utils.data.ConcatDataset([anomaly_testset, normal_testset]) 
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
+    elif dataset == 'stanford-cars':
+        import pandas as pd
+        from scipy.io import loadmat
 
+        cars_train_annos = loadmat('./stanford_cars/devkit/cars_train_annos.mat')
+        frame = [[i.flat[0] for i in line] for line in cars_train_annos['annotations'][0]]
+        columns = ['bbox_x1', 'bbox_y1', 'bbox_x2', 'bbox_y2', 'class', 'fname']
+        df_train = pd.DataFrame(frame, columns=columns)
+        df_train['class'] = df_train['class']-1
+        df_train['fname'] = ['./stanford_cars/cars_train/'+f for f in df_train['fname']]
+
+        cars_test_annos = loadmat('./stanford_cars/cars_test_annos_withlabels.mat')
+        frame = [[i.flat[0] for i in line] for line in cars_test_annos['annotations'][0]]
+        columns = ['bbox_x1', 'bbox_y1', 'bbox_x2', 'bbox_y2', 'class', 'fname']
+        df_test = pd.DataFrame(frame, columns=columns)
+        df_test['class'] = df_test['class']-1
+        df_test['fname'] = ['./stanford_cars/cars_test/'+f for f in df_test['fname']]
+
+        df_test = df_test.loc[df_test['class'] < 20]
+        df_train = df_train.loc[df_train['class'] < 20]
+
+        transform_train = transforms.Compose([transforms.Resize([image_size[0],image_size[1]]),
+                                            transforms.RandomHorizontalFlip(),
+                                            transforms.ToTensor()])
+        transform_test = transforms.Compose([transforms.Resize([image_size[0],image_size[1]]),
+                                            transforms.ToTensor()])
+
+        if train_transform_cutpasted:
+            train_set = Custom_Dataset(image_path=df_train["fname"].to_numpy(), targets=df_train["class"].to_numpy(), transform=train_transform_cutpasted)
+        else:
+            train_set = Custom_Dataset(image_path=df_train["fname"].to_numpy(), targets=df_train["class"].to_numpy(), transform=transform_train)
+        test_set = Custom_Dataset(image_path=df_test["fname"].to_numpy(), targets=df_test["class"].to_numpy(), transform=transform_test)
+        
+        print("train_set shapes: ", train_set[0][0].shape)
+        print("test_set shapes: ", test_set[0][0].shape)
+        
+        print("len(test_set), len(train_set): ", len(test_set), len(train_set))
     elif dataset == 'svhn':
         assert test_only and image_size is not None
         test_set = datasets.SVHN(DATA_PATH, split='test', download=download, transform=test_transform)
@@ -1392,7 +1428,7 @@ def get_superclass_list(dataset):
         return FashionMNIST_SUPERCLASS
     elif dataset == 'mnist':
         return MNIST_SUPERCLASS
-    elif dataset == 'cifar100' or dataset=='cifar100-corruption':
+    elif dataset == 'cifar100' or dataset=='cifar100-corruption' or dataset=='stanford-cars':
         return CIFAR100_SUPERCLASS
     elif dataset == 'ucsd':
         return UCSD_SUPERCLASS

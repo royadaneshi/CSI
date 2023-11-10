@@ -1139,3 +1139,21 @@ class ImageNet30_Dataset(Dataset):
     def __len__(self):
         return len(self.image_files)
 
+
+class Custom_Dataset(Dataset):
+    def __init__(self, image_path, targets, transform=None):
+        self.transform = transform
+        self.image_files = image_path
+        self.targets = targets
+        
+    def __getitem__(self, index):
+        image_file = self.image_files[index]
+        image = Image.open(image_file)
+        image = image.convert('RGB')
+        if self.transform is not None:
+            image = self.transform(image)
+        return image, self.targets[index]
+
+    def __len__(self):
+        return len(self.image_files)
+        
