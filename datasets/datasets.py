@@ -296,6 +296,15 @@ def get_exposure_dataloader(P, batch_size = 64, image_size=(224, 224, 3),
         print("len(cutpast_train_set) after set_count: ", len(cutpast_train_set))
 
         imagenet_exposure = ImageNetExposure(root=base_path, count=tiny_count, transform=tiny_transform)
+        if P.dataset=='cub-birds':
+            transform = transforms.Compose([
+                transforms.Resize((32, 32)),
+                transforms.ToTensor(),
+            ])
+            image_path = glob('./one_class_test/*/*/*')[:tiny_count]
+            imagenet_exposure = ImageNet30_Dataset(image_path=image_path, labels=[1]*len(image_path), transform=tiny_transform)
+
+            
         if P.dataset=="cifar10":
             """
             tiny_transform = transforms.Compose([
