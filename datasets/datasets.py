@@ -283,7 +283,7 @@ def get_exposure_dataloader(P, batch_size = 64, image_size=(224, 224, 3),
                 transforms.Resize((image_size[0], image_size[1])),
                 CutPasteUnion(transform = transforms.Compose([transforms.ToTensor(),])),
             ])
-        if P.dataset=='WBC':
+        if P.dataset=='WBC' or P.dataset=='cub-birds':
             cutpast_train_set, _, _, _ = get_dataset(P, dataset=P.dataset, download=True, image_size=image_size, train_transform_cutpasted=train_transform_cutpasted, labels=cls_list)            
         else:    
             cutpast_train_set, _, _, _ = get_dataset(P, dataset=P.dataset, download=True, image_size=image_size, train_transform_cutpasted=train_transform_cutpasted)
@@ -1304,6 +1304,38 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         print("test_set shapes: ", test_set[0][0].shape)
         
         print("len(test_set), len(train_set): ", len(test_set), len(train_set))
+    elif dataset == 'cub-birds':
+        n_classes = 2
+        cub_root = 'cub'
+        transform_train = transforms.Compose([transforms.Resize((image_size[0], image_size[1])),
+                                            transforms.RandomHorizontalFlip(),
+                                            transforms.ToTensor()])
+
+        transform_test = transforms.Compose([transforms.Resize((image_size[0], image_size[1])),
+                                            transforms.ToTensor()])
+        normal_set = labels
+        if train_transform_cutpasted:
+            transform_train = train_transform_cutpasted
+        train_set = CustomCub2011(root=cub_root, transform=transform_train, train=True)
+        train_set = subsample_classes(train_set, include_classes=normal_set)
+        train_set.target_transform = lambda x: 0
+
+        anomaly_set = list(set(list(range(20))) - set(normal_set))
+
+        test_set_in = CustomCub2011(root=cub_root, transform=transform_test, train=False)
+        test_set_in = subsample_classes(test_set_in, include_classes=normal_set)
+        test_set_in.target_transform = lambda x: 0
+
+        test_set_out = CustomCub2011(root=cub_root, transform=transform_test, train=False)
+        test_set_out = subsample_classes(test_set_out, include_classes=anomaly_set)
+        test_set_out.target_transform = lambda x: 1
+
+        test_set = ConcatDataset([test_set_in, test_set_out]) 
+
+        print("train_set shapes: ", train_set[0][0].shape)
+        print("test_set shapes: ", test_set[0][0].shape)
+        print("len(test_set), len(train_set): ", len(test_set), len(train_set))
+
     elif dataset == 'svhn':
         assert test_only and image_size is not None
         test_set = datasets.SVHN(DATA_PATH, split='test', download=download, transform=test_transform)
@@ -1418,7 +1450,7 @@ def get_superclass_list(dataset):
         return MVTecAD_SUPERCLASS
     elif dataset == 'ArtBench':
         return ART_BENCH_SUPERCLASS
-    elif dataset == 'head-ct' or dataset=='cifar100-versus-other-eval' or dataset=='cifar10-versus-other-eval':
+    elif dataset=='cub-birds' or dataset=='head-ct' or dataset=='cifar100-versus-other-eval' or dataset=='cifar10-versus-other-eval':
         return HEAD_CT_SUPERCLASS
     elif dataset == 'mvtec-high-var' or dataset == 'mvtec-high-var-corruption':
         return MVTEC_HV_SUPERCLASS
