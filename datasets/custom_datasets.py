@@ -14,6 +14,7 @@ import pickle
 import random
 import rasterio
 import re
+from torchvision.datasets.folder import default_loader
 
 import pandas as pd
 import matplotlib.pyplot as plt
