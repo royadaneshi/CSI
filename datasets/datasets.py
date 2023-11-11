@@ -267,12 +267,12 @@ def get_exposure_dataloader(P, batch_size = 64, image_size=(224, 224, 3),
                 transforms.RandomRotation((90, 270)),
                 CutPasteNormal(transform = transforms.Compose([transforms.ToTensor(),])),
             ])
-        elif P.dataset=='dtd':
+        elif P.dataset=='dtd' or P.dataset=='cub-birds':
             train_transform_cutpasted = transforms.Compose([
                 transforms.Resize((image_size[0], image_size[1])),
                 High_CutPasteUnion(transform = transforms.Compose([transforms.ToTensor(),])),
             ])
-        elif P.dataset=='WBC' or P.dataset=='cub-birds':
+        elif P.dataset=='WBC':
             train_transform_cutpasted = transforms.Compose([
                 transforms.Resize((image_size[0], image_size[1])),
                 transforms.ToPILImage(),
