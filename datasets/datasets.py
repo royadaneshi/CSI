@@ -296,11 +296,7 @@ def get_exposure_dataloader(P, batch_size = 64, image_size=(224, 224, 3),
         print("len(cutpast_train_set) after set_count: ", len(cutpast_train_set))
 
         imagenet_exposure = ImageNetExposure(root=base_path, count=tiny_count, transform=tiny_transform)
-        if P.dataset=='cub-birds':
-            transform = transforms.Compose([
-                transforms.Resize((32, 32)),
-                transforms.ToTensor(),
-            ])
+        if P.dataset=='cub-birds' or P.dataset=='STL-10':
             image_path = glob('./one_class_test/*/*/*')[:tiny_count]
             imagenet_exposure = ImageNet30_Dataset(image_path=image_path, labels=[1]*len(image_path), transform=tiny_transform)
 
@@ -1008,6 +1004,21 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
         test_set = datasets.SVHN(DATA_PATH, split='test', download=download, transform=transform)
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
+    elif dataset == 'STL-10':
+        # image_size = (32, 32, 3)
+        n_classes = 10
+        transform = transforms.Compose([
+            transforms.Resize((image_size[0], image_size[1])),
+            transforms.ToTensor(),
+        ])
+        if train_transform_cutpasted:
+            train_set = datasets.STL10(DATA_PATH, split='train', download=download, transform=train_transform_cutpasted)
+        else:
+            train_set = datasets.STL10(DATA_PATH, split='train', download=download, transform=transform)
+        test_set = datasets.STL10(DATA_PATH, split='test', download=download, transform=transform)
+        print("train_set shapes: ", train_set[0][0].shape)
+        print("test_set shapes: ", test_set[0][0].shape)
+
     
     elif dataset == 'svhn-10-corruption':
 
@@ -1437,7 +1448,7 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
 
 
 def get_superclass_list(dataset):
-    if dataset=='svhn-10' or  dataset=='svhn-10-corruption':
+    if dataset=='svhn-10' or  dataset=='svhn-10-corruption' or dataset=="STL-10":
         return SVHN_SUPERCLASS
     elif dataset == 'cifar10-corruption':
         return CIFAR10_CORRUPTION_SUPERCLASS
