@@ -297,7 +297,7 @@ def get_exposure_dataloader(P, batch_size = 64, image_size=(224, 224, 3),
 
         imagenet_exposure = ImageNetExposure(root=base_path, count=tiny_count, transform=tiny_transform)
         if P.dataset=='cub-birds' or P.dataset=='STL-10':
-            image_path = glob('./one_class_test/*/*/*')#[:tiny_count]
+            image_path = glob('./one_class_train/*/*')[:tiny_count]
             imagenet_exposure = ImageNet30_Dataset(image_path=image_path, labels=[1]*len(image_path), transform=tiny_transform)
 
             
