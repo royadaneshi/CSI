@@ -34,7 +34,7 @@ class Pretrain_VIT(BaseModel):
         self.backbone = timm.create_model("vit_base_patch16_224", pretrained=True)
         self.backbone.head = torch.nn.Identity()
         i = 0
-        num = 76
+        num = 133
         for param in self.backbone.parameters():
             if i<num:
                 param.requires_grad = False
