@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from common.common import parse_args
 import models.classifier as C
 from datasets import set_dataset_count, mvtecad_dataset, get_dataset, get_superclass_list, get_subclass_dataset, get_exposure_dataloader
-from utils.utils import load_checkpoint, get_loader_unique_label
+from utils.utils import load_checkpoint, get_loader_unique_label, count_parameters
 
 P = parse_args()
 
@@ -159,3 +159,5 @@ if P.multi_gpu:
     simclr_aug = apex.parallel.DistributedDataParallel(simclr_aug, delay_allreduce=True)
     model = apex.parallel.convert_syncbn_model(model)
     model = apex.parallel.DistributedDataParallel(model, delay_allreduce=True)
+
+count_parameters(model)
