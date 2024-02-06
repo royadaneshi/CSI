@@ -60,7 +60,7 @@ def get_shift_classifer(model, K_shift):
     return model
 
 
-def get_classifier(mode, n_classes=10, activation='relu', std=1.0, mean=0.0, noise_scale=0.1, noist_probability=0.5):
+def get_classifier(mode, n_classes=10, activation='relu', std=1.0, mean=0.0, noise_scale=0.1, noist_probability=0.5, freezing_layer=133):
     if mode == 'resnet18':
         classifier = ResNet18(num_classes=n_classes, activation=activation)
     elif mode == 'resnet18-corruption':
@@ -70,7 +70,7 @@ def get_classifier(mode, n_classes=10, activation='relu', std=1.0, mean=0.0, noi
     elif mode == "pretrain-wide-resnet":
         classifier = Pretrain_Wide_ResNet_Model(num_classes=n_classes)
     elif mode == "vit":
-        classifier = VIT_Pretrain(num_classes=n_classes)
+        classifier = VIT_Pretrain(num_classes=n_classes, freezing_layer=freezing_layer)
     elif mode == 'pretrain-resnet152-corruption':
         classifier = Pretrain_ResNet152_Corruption_Model(num_classes=n_classes)
     elif mode =='pretrain-resnet152':

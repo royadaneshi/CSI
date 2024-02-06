@@ -21,7 +21,7 @@ def conv3x3(in_planes, out_planes, stride=1):
 
 
 class Pretrain_VIT(BaseModel):
-    def __init__(self, num_classes=10):
+    def __init__(self, num_classes=10, freezing_layer=133):
         last_dim = 768
         super(Pretrain_VIT, self).__init__(last_dim, num_classes)
 
@@ -34,7 +34,7 @@ class Pretrain_VIT(BaseModel):
         self.backbone = timm.create_model("vit_base_patch16_224", pretrained=True)
         self.backbone.head = torch.nn.Identity()
         i = 0
-        num = 133
+        num = freezing_layer
         for param in self.backbone.parameters():
             if i<num:
                 param.requires_grad = False
@@ -46,5 +46,5 @@ class Pretrain_VIT(BaseModel):
         z_n = F.normalize(z1, dim=-1)
         return z_n
 
-def VIT_Pretrain(num_classes):
-    return Pretrain_VIT(num_classes=num_classes)
+def VIT_Pretrain(num_classes, freezing_layer=133):
+    return Pretrain_VIT(num_classes=num_classes, freezing_layer=freezing_layer)
