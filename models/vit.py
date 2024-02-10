@@ -84,6 +84,8 @@ class Pretrain_R50_VIT(BaseModel):
         std = torch.tensor([0.5, 0.5, 0.5]).view(3, 1, 1).cuda()
         self.norm = lambda x: ( x - mu ) / std
         self.backbone = timm.create_model("vit_base_resnet50_224_in21k")
+        self.backbone.head = torch.nn.Identity()
+
         i = 0
         num = freezing_layer
         for param in self.backbone.parameters():
