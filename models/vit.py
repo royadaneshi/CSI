@@ -57,7 +57,7 @@ class Pretrain_DINO(BaseModel):
         mu = torch.tensor([0.5, 0.5, 0.5]).view(3, 1, 1).cuda()
         std = torch.tensor([0.5, 0.5, 0.5]).view(3, 1, 1).cuda()
         self.norm = lambda x: ( x - mu ) / std
-        self.backbone = = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
+        self.backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
         i = 0
         num = freezing_layer
         for param in self.backbone.parameters():
