@@ -86,6 +86,7 @@ class Pretrain_R50_VIT(BaseModel):
         self.backbone = timm.create_model("vit_base_resnet50_224_in21k")
         i = 0
         num = freezing_layer
+        print("---", freezing_layer)
         for param in self.backbone.parameters():
             if i<num:
                 print(i)
