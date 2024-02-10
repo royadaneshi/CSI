@@ -957,7 +957,7 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
     elif dataset=='cifar10-corruption':
         n_classes = 10
         transform = transforms.Compose([
-                transforms.Resize(32),
+                transforms.Resize((image_size[0], image_size[1])),
                 transforms.ToTensor(),
         ])
         test_set = CIFAR_CORRUCPION(transform=transform, cifar_corruption_data=P.cifar_corruption_data)
@@ -967,7 +967,7 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
     elif dataset=='cifar100-corruption':
         n_classes = 100
         transform = transforms.Compose([
-                transforms.Resize(32),
+                transforms.Resize((image_size[0], image_size[1])),
                 transforms.ToTensor(),
         ])
         test_set = CIFAR_CORRUCPION(transform=transform, cifar_corruption_label='CIFAR-100-C/labels.npy', cifar_corruption_data=P.cifar_corruption_data)
