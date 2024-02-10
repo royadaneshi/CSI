@@ -71,7 +71,7 @@ def get_classifier(mode, n_classes=10, activation='relu', std=1.0, mean=0.0, noi
         classifier = Pretrain_Wide_ResNet_Model(num_classes=n_classes)
     elif mode == "dino":
         classifier = DINO_Pretrain(num_classes=n_classes, freezing_layer=freezing_layer)
-    elif model == "R50ViT":
+    elif mode == "R50ViT":
         classifier = R50_VIT_Pretrain(num_classes=n_classes, freezing_layer=freezing_layer)
     elif mode == "vit":
         classifier = VIT_Pretrain(num_classes=n_classes, freezing_layer=freezing_layer)
