@@ -10,8 +10,8 @@ import torch.nn.functional as F
 from sklearn.metrics import roc_auc_score
 
 import models.transform_layers as TL
-from utils.temperature_scaling import _ECELoss
-from utils.utils import AverageMeter, set_random_seed, normalize
+from utils_.temperature_scaling import _ECELoss
+from utils_.utils import AverageMeter, set_random_seed, normalize
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ece_criterion = _ECELoss().to(device)

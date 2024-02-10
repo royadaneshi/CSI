@@ -4,7 +4,7 @@ import torch.optim
 
 import models.transform_layers as TL
 from training.contrastive_loss import get_similarity_matrix, Supervised_NT_xent
-from utils.utils import AverageMeter, normalize
+from utils_.utils import AverageMeter, normalize
 
 device = torch.device(f"cuda" if torch.cuda.is_available() else "cpu")
 hflip = TL.HorizontalFlipLayer().to(device)

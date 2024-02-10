@@ -4,7 +4,7 @@ import torch.optim
 import torch.optim.lr_scheduler as lr_scheduler
 
 import models.transform_layers as TL
-from utils.utils import AverageMeter, normalize
+from utils_.utils import AverageMeter, normalize
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 hflip = TL.HorizontalFlipLayer().to(device)
