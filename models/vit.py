@@ -88,6 +88,7 @@ class Pretrain_R50_VIT(BaseModel):
         num = freezing_layer
         for param in self.backbone.parameters():
             if i<num:
+                print(i)
                 param.requires_grad = False
             i+=1
       
