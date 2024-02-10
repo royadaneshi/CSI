@@ -4,7 +4,7 @@ from models.resnet import ResNet18, ResNet34, ResNet50, Pretrain_ResNet18_Model,
 from models.resnet_imagenet import resnet18, resnet50
 from models.wide_resnet import wide_resnet34_5
 import models.transform_layers as TL
-from models.vit import VIT_Pretrain
+from models.vit import VIT_Pretrain, DINO_Pretrain
 from models.vit_FITYMI import VIT_Pretrain_FITYMI
 
 def get_simclr_augmentation(P, image_size):
@@ -69,6 +69,8 @@ def get_classifier(mode, n_classes=10, activation='relu', std=1.0, mean=0.0, noi
         classifier = VIT_Pretrain_FITYMI(num_classes=n_classes)
     elif mode == "pretrain-wide-resnet":
         classifier = Pretrain_Wide_ResNet_Model(num_classes=n_classes)
+    elif mode == "dino":
+        classifier = DINO_Pretrain(num_classes=n_classes, freezing_layer=freezing_layer)
     elif mode == "vit":
         classifier = VIT_Pretrain(num_classes=n_classes, freezing_layer=freezing_layer)
     elif mode == 'pretrain-resnet152-corruption':
