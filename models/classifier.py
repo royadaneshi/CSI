@@ -5,7 +5,7 @@ from models.resnet_imagenet import resnet18, resnet50
 from models.wide_resnet import wide_resnet34_5
 import models.transform_layers as TL
 from models.vit import VIT_Pretrain, DINO_Pretrain, R50_VIT_Pretrain
-from model.clip import Clip_R50_Pretrain
+from models.clip import Clip_R50_Pretrain
 from models.vit_FITYMI import VIT_Pretrain_FITYMI
 
 def get_simclr_augmentation(P, image_size):
