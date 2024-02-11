@@ -37,7 +37,7 @@ class CLIP_R50(BaseModel):
     def penultimate(self, x, all_features=False):
         x = self.norm(x)
         x = self.backbone(x)
-        x = F.normalize(x, dim=-1).to(torch.float32)
+        # x = F.normalize(x, dim=-1).to(torch.float32)
         return x
 
 
