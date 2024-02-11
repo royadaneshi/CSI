@@ -23,6 +23,9 @@ class BaseModel(nn.Module, metaclass=ABCMeta):
         _return_aux = False
 
         features = self.penultimate(inputs)
+        print("===========")
+        print(features.dtype)
+        print(self.linear.weight.dtype)
         output = self.linear(features)
 
         if penultimate:
