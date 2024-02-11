@@ -45,7 +45,7 @@ class CLIP_VIT(BaseModel):
     def __init__(self, num_classes=10, freezing_layer=134):
         import clip
         last_dim = 768
-        super(CLIP_R50, self).__init__(last_dim, num_classes)
+        super(CLIP_VIT, self).__init__(last_dim, num_classes)
         self.in_planes = 64
         self.last_dim = 768
         device = torch.device(f"cuda" if torch.cuda.is_available() else "cpu")
@@ -72,6 +72,6 @@ class CLIP_VIT(BaseModel):
 def Clip_R50_Pretrain(num_classes, freezing_layer=166):
     return CLIP_R50(num_classes=num_classes, freezing_layer=freezing_layer)
 
-def Clip_VIT_Pretrain(num_classes, freezing_layer=166):
+def Clip_VIT_Pretrain(num_classes, freezing_layer=134):
     return CLIP_VIT(num_classes=num_classes, freezing_layer=freezing_layer)
 
