@@ -5,7 +5,7 @@ from models.resnet_imagenet import resnet18, resnet50
 from models.wide_resnet import wide_resnet34_5
 import models.transform_layers as TL
 from models.vit import VIT_Pretrain, DINO_Pretrain, R50_VIT_Pretrain
-from models.clip import Clip_R50_Pretrain
+from models.clip import Clip_R50_Pretrain, Clip_VIT_Pretrain
 from models.vit_FITYMI import VIT_Pretrain_FITYMI
 
 def get_simclr_augmentation(P, image_size):
@@ -74,6 +74,8 @@ def get_classifier(mode, n_classes=10, activation='relu', std=1.0, mean=0.0, noi
         classifier = DINO_Pretrain(num_classes=n_classes, freezing_layer=freezing_layer)
     elif mode == 'clip_r50':
         classifier = Clip_R50_Pretrain(num_classes=n_classes, freezing_layer=freezing_layer)
+    elif mode == 'clip_vit':
+        classifier = Clip_VIT_Pretrain(num_classes=n_classes, freezing_layer=freezing_layer)
     elif mode == "R50ViT":
         classifier = R50_VIT_Pretrain(num_classes=n_classes, freezing_layer=freezing_layer)
     elif mode == "vit":
