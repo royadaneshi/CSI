@@ -44,10 +44,10 @@ class CLIP_R50(BaseModel):
 class CLIP_VIT(BaseModel):
     def __init__(self, num_classes=10, freezing_layer=134):
         import clip
-        last_dim = 1024
+        last_dim = 768
         super(CLIP_R50, self).__init__(last_dim, num_classes)
         self.in_planes = 64
-        self.last_dim = 1024
+        self.last_dim = 768
         device = torch.device(f"cuda" if torch.cuda.is_available() else "cpu")
         mu = torch.tensor([0.48145466, 0.4578275, 0.40821073]).view(3, 1, 1).to(device)
         std = torch.tensor([0.26862954, 0.26130258, 0.27577711]).view(3, 1, 1).to(device)
