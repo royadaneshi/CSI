@@ -37,7 +37,7 @@ class CLIP_R50(BaseModel):
     def penultimate(self, x, all_features=False):
         x = self.norm(x)
         x = self.backbone(x)
-        x = F.normalize(x, dim=-1).to(torch.float16)
+        x = F.normalize(x, dim=-1).to(torch.float32)
         return x
 
 def Clip_R50_Pretrain(num_classes, freezing_layer=166):
