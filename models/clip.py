@@ -13,7 +13,7 @@ def conv3x3(in_planes, out_planes, stride=1):
 
 
 class CLIP_R50(BaseModel):
-    def __init__(self, num_classes=10, freezing_layer=166):
+    def __init__(self, num_classes=10, freezing_layer=168):
         import clip
         last_dim = 1024
         super(CLIP_R50, self).__init__(last_dim, num_classes)
@@ -69,7 +69,7 @@ class CLIP_VIT(BaseModel):
         # x = F.normalize(x, dim=-1).to(torch.float32)
         return x
 
-def Clip_R50_Pretrain(num_classes, freezing_layer=166):
+def Clip_R50_Pretrain(num_classes, freezing_layer=168):
     return CLIP_R50(num_classes=num_classes, freezing_layer=freezing_layer)
 
 def Clip_VIT_Pretrain(num_classes, freezing_layer=134):
