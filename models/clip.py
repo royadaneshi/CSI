@@ -25,7 +25,7 @@ class CLIP_R50(BaseModel):
         self.norm = lambda x: ( x - mu ) / std
 
         self.backbone, transform = clip.load("RN50", device=device)
-        self.backbone.forward = self.backbone.encode_image
+        self.backbone = self.backbone.visual
 
         i = 0
         num = freezing_layer
