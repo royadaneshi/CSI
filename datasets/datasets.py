@@ -6,9 +6,12 @@ from torch.utils.data.dataset import Subset
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, Dataset
 from torchvision.datasets import ImageFolder
-
+##
+import sys
+sys.path.append("..")
+##
 from utils_.utils import set_random_seed
-from datasets.cutpast_transformation import *
+from cutpast_transformation import *
 from PIL import Image
 from glob import glob
 import random
@@ -17,7 +20,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import cv2
-from datasets.custom_datasets import *
+from custom_datasets import *
 from torch.utils.data import ConcatDataset
 
 import medmnist
