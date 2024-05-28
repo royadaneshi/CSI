@@ -604,9 +604,9 @@ class chest(torch.utils.data.Dataset):
         self.image_files = []
 
         if train:
-            self.image_files = glob(os.path.join('./MRI', 'Training', '*', '*.png'))
+            self.image_files = glob(os.path.join('/kaggle/input/chest-datasett256/chest_dataset/train', '*.png'))
         else:
-            self.image_files = glob(os.path.join('./MRI', 'Testing', '*', '*.png'))
+            self.image_files = glob(os.path.join('/kaggle/input/chest-datasett256/chest_dataset/test', '*.png'))
 
         self.image_files.sort(key=lambda y: y.lower())
         #
