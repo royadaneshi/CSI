@@ -6,11 +6,7 @@ from torch.utils.data.dataset import Subset
 # from torchvision import datasets, transforms
 # from torch.utils.data import DataLoader, Dataset
 from torchvision.datasets import ImageFolder
-##
-import sys
 
-sys.path.append("..")
-##
 # from utils_.utils import set_random_seed
 # from cutpast_transformation import *
 # from PIL import Image
@@ -174,9 +170,9 @@ def get_exposure_dataloader(P, batch_size=64, image_size=(224, 224, 3),
             transforms.RandomChoice(
                 [transforms.RandomApply(
                     [transforms.RandomAffine(90, translate=(0.15, 0.15), scale=(0.85, 1), shear=None)], p=0.6),
-                 transforms.RandomApply([transforms.RandomAffine(0, translate=None, scale=(0.5, 0.75), shear=30)],
-                                        p=0.6),
-                 transforms.RandomApply([transforms.AutoAugment()], p=0.9), ]),
+                    transforms.RandomApply([transforms.RandomAffine(0, translate=None, scale=(0.5, 0.75), shear=30)],
+                                           p=0.6),
+                    transforms.RandomApply([transforms.AutoAugment()], p=0.9), ]),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor()
         ])
