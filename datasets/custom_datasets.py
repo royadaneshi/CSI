@@ -24,7 +24,7 @@ import torchvision
 import subprocess
 from tqdm import tqdm
 import requests
-import shutil 
+import shutil
 from PIL import Image
 import shutil
 import random
@@ -32,8 +32,11 @@ import zipfile
 import time
 import gdown
 
-CLASS_NAMES = ['toothbrush', 'zipper', 'transistor', 'tile', 'grid', 'wood', 'pill', 'bottle', 'capsule', 'metal_nut', 'hazelnut', 'screw', 'carpet', 'leather', 'cable']
+CLASS_NAMES = ['toothbrush', 'zipper', 'transistor', 'tile', 'grid', 'wood', 'pill', 'bottle', 'capsule', 'metal_nut',
+               'hazelnut', 'screw', 'carpet', 'leather', 'cable']
 DATA_PATH = './data/'
+
+
 class MultiDataTransform(object):
     def __init__(self, transform):
         self.transform1 = transform
@@ -65,7 +68,7 @@ class ImageNetExposure(Dataset):
     def __init__(self, root, count, transform=None):
         self.transform = transform
         image_files = glob(os.path.join(root, 'train', "*", "images", "*.JPEG"))
-        if count==-1:
+        if count == -1:
             final_length = len(image_files)
         else:
             random.shuffle(image_files)
@@ -84,6 +87,7 @@ class ImageNetExposure(Dataset):
     def __len__(self):
         return len(self.image_files)
 
+
 class MVTecDataset(Dataset):
     def __init__(self, root, category, transform=None, train=True, count=-1):
         self.transform = transform
@@ -97,11 +101,11 @@ class MVTecDataset(Dataset):
             anomaly_image_files = list(set(image_files) - set(normal_image_files))
             self.image_files = image_files
         if count != -1:
-            if count<len(self.image_files):
+            if count < len(self.image_files):
                 self.image_files = self.image_files[:count]
             else:
                 t = len(self.image_files)
-                for i in range(count-t):
+                for i in range(count - t):
                     self.image_files.append(random.choice(self.image_files[:t]))
         self.image_files.sort(key=lambda y: y.lower())
         self.train = train
@@ -121,18 +125,19 @@ class MVTecDataset(Dataset):
     def __len__(self):
         return len(self.image_files)
 
+
 class FakeMVTecDataset(Dataset):
     def __init__(self, root, category, transform=None, target_transform=None, train=True, count=-1):
         self.transform = transform
         self.image_files = []
         print("category FakeMVTecDataset:", category)
         self.image_files = glob(os.path.join(root, category, "*.jpeg"))
-        if count!=-1:
-            if count<len(self.image_files):
+        if count != -1:
+            if count < len(self.image_files):
                 self.image_files = self.image_files[:count]
             else:
                 t = len(self.image_files)
-                for i in range(count-t):
+                for i in range(count - t):
                     self.image_files.append(random.choice(self.image_files[:t]))
         self.image_files.sort(key=lambda y: y.lower())
 
@@ -143,8 +148,10 @@ class FakeMVTecDataset(Dataset):
         if self.transform is not None:
             image = self.transform(image)
         return image, -1
+
     def __len__(self):
         return len(self.image_files)
+
 
 class MVTecDataset_Cutpasted(Dataset):
     def __init__(self, root, category, transform=None, train=True, count=-1):
@@ -158,15 +165,16 @@ class MVTecDataset_Cutpasted(Dataset):
             normal_image_files = glob(os.path.join(root, category, "test", "good", "*.png"))
             anomaly_image_files = list(set(image_files) - set(normal_image_files))
             self.image_files = image_files
-        if count!=-1:
-            if count<len(self.image_files):
+        if count != -1:
+            if count < len(self.image_files):
                 self.image_files = self.image_files[:count]
             else:
                 t = len(self.image_files)
-                for i in range(count-t):
+                for i in range(count - t):
                     self.image_files.append(random.choice(self.image_files[:t]))
         self.image_files.sort(key=lambda y: y.lower())
         self.train = train
+
     def __getitem__(self, index):
         image_file = self.image_files[index]
         image = Image.open(image_file)
@@ -177,7 +185,7 @@ class MVTecDataset_Cutpasted(Dataset):
 
     def __len__(self):
         return len(self.image_files)
-    
+
 
 class DataOnlyDataset(Dataset):
     def __init__(self, original_dataset):
@@ -190,18 +198,19 @@ class DataOnlyDataset(Dataset):
         sample = self.original_dataset[idx][0]
         return sample
 
+
 class HEAD_CT_DATASET(Dataset):
     def __init__(self, image_path, labels, transform=None, count=-1):
         self.transform = transform
         self.image_files = image_path
         self.labels = labels
         if count != -1:
-            if count<len(self.image_files):
+            if count < len(self.image_files):
                 self.image_files = self.image_files[:count]
                 self.labels = self.labels[:count]
             else:
                 t = len(self.image_files)
-                for i in range(count-t):
+                for i in range(count - t):
                     self.image_files.append(random.choice(self.image_files[:t]))
                     self.labels.append(random.choice(self.labels[:t]))
 
@@ -212,9 +221,10 @@ class HEAD_CT_DATASET(Dataset):
         if self.transform is not None:
             image = self.transform(image)
         return image, self.labels[index]
-    
+
     def __len__(self):
         return len(self.image_files)
+
 
 class FakeCIFAR10(Dataset):
     def __init__(self, root, category, transform=None, target_transform=None, train=True, count=None):
@@ -222,12 +232,12 @@ class FakeCIFAR10(Dataset):
         self.image_files = []
         for i in range(len(category)):
             img_files = glob(os.path.join(root, str(category[i]), "*.jpeg"))
-            if count[i]<len(img_files):
+            if count[i] < len(img_files):
                 img_files = img_files[:count[i]]
             else:
                 t = len(img_files)
-                for i in range(count[i]-t):
-                    img_files.append(random.choice(img_files[:t]))            
+                for i in range(count[i] - t):
+                    img_files.append(random.choice(img_files[:t]))
             self.image_files += img_files
         self.image_files.sort(key=lambda y: y.lower())
 
@@ -238,52 +248,58 @@ class FakeCIFAR10(Dataset):
         if self.transform is not None:
             image = self.transform(image)
         return image, -1
+
     def __len__(self):
         return len(self.image_files)
+
 
 class FakeMNIST(Dataset):
     def __init__(self, root, category, transform=None, target_transform=None, train=True, count=6000):
         self.transform = transform
         self.image_files = []
         for i in range(len(category)):
-            img_files = list(np.load("./Fake_Mnist.npy")[6000*i:6000*(i+1)])
-            if count[i]<len(img_files):
+            img_files = list(np.load("./Fake_Mnist.npy")[6000 * i:6000 * (i + 1)])
+            if count[i] < len(img_files):
                 img_files = img_files[:count[i]]
             else:
                 t = len(img_files)
-                for i in range(count[i]-t):
-                    img_files.append(random.choice(img_files[:t]))            
+                for i in range(count[i] - t):
+                    img_files.append(random.choice(img_files[:t]))
             self.image_files += img_files
         # self.image_files.sort(key=lambda y: y.lower())
 
     def __getitem__(self, index):
-        image = Image.fromarray((self.image_files[index].transpose(1, 2, 0)*255).astype(np.uint8))
+        image = Image.fromarray((self.image_files[index].transpose(1, 2, 0) * 255).astype(np.uint8))
         if self.transform is not None:
             image = self.transform(image)
         target = 1
         return image, target
+
     def __len__(self):
         return len(self.image_files)
+
 
 class FakeWBC(Dataset):
     def __init__(self, root='./', category=0, transform=None, count=6000):
         self.transform = transform
-        self.image_files = list(np.load(root+"Fake_CELL_type1.npy"))
-        if count<len(self.image_files):
+        self.image_files = list(np.load(root + "Fake_CELL_type1.npy"))
+        if count < len(self.image_files):
             self.image_files = self.image_files[:count]
         else:
             t = len(self.image_files)
-            for i in range(count-t):
-                self.image_files.append(random.choice(self.image_files[:t]))            
+            for i in range(count - t):
+                self.image_files.append(random.choice(self.image_files[:t]))
+
     def __getitem__(self, index):
-        image = Image.fromarray((self.image_files[index].transpose(1, 2, 0)*255).astype(np.uint8))
+        image = Image.fromarray((self.image_files[index].transpose(1, 2, 0) * 255).astype(np.uint8))
         if self.transform is not None:
             image = self.transform(image)
         target = 1
         return image, target
+
     def __len__(self):
         return len(self.image_files)
-        
+
 
 class FakeFashionDataset(Dataset):
     def __init__(self, root, category, transform=None, target_transform=None, train=True, count=None):
@@ -291,12 +307,12 @@ class FakeFashionDataset(Dataset):
         self.image_files = []
         for i in range(len(category)):
             img_files = glob(os.path.join(root, str(category[i]), "*.jpeg"))
-            if count[i]<len(img_files):
+            if count[i] < len(img_files):
                 img_files = img_files[:count[i]]
             else:
                 t = len(img_files)
-                for i in range(count[i]-t):
-                    img_files.append(random.choice(img_files[:t]))            
+                for i in range(count[i] - t):
+                    img_files.append(random.choice(img_files[:t]))
             self.image_files += img_files
         self.image_files.sort(key=lambda y: y.lower())
 
@@ -307,8 +323,10 @@ class FakeFashionDataset(Dataset):
         if self.transform is not None:
             image = self.transform(image)
         return image, -1
+
     def __len__(self):
         return len(self.image_files)
+
 
 class Fake_SVHN_Dataset(Dataset):
     def __init__(self, root, category, transform=None, target_transform=None, train=True, count=None):
@@ -316,12 +334,12 @@ class Fake_SVHN_Dataset(Dataset):
         self.image_files = []
         for i in range(len(category)):
             img_files = glob(os.path.join(root, str(category[i]), "*.jpeg"))
-            if count[i]<len(img_files):
+            if count[i] < len(img_files):
                 img_files = img_files[:count[i]]
             else:
                 t = len(img_files)
-                for i in range(count[i]-t):
-                    img_files.append(random.choice(img_files[:t]))            
+                for i in range(count[i] - t):
+                    img_files.append(random.choice(img_files[:t]))
             self.image_files += img_files
         self.image_files.sort(key=lambda y: y.lower())
 
@@ -333,22 +351,20 @@ class Fake_SVHN_Dataset(Dataset):
             image = self.transform(image)
         target = 1
         return image, target
+
     def __len__(self):
         return len(self.image_files)
 
 
-
-
-
 class MVTecDataset_High_VAR(Dataset):
     def __init__(
-        self,
-        dataset_path="./mvtec_anomaly_detection",
-        class_name="bottle",
-        is_train=True,
-        resize=256,
-        cropsize=224,
-        transform=None,
+            self,
+            dataset_path="./mvtec_anomaly_detection",
+            class_name="bottle",
+            is_train=True,
+            resize=256,
+            cropsize=224,
+            transform=None,
     ):
         assert class_name in CLASS_NAMES, "class_name: {}, should be in {}".format(
             class_name, CLASS_NAMES
@@ -364,7 +380,6 @@ class MVTecDataset_High_VAR(Dataset):
         self.dataset_path = os.path.join(dataset_path, "mvtec_anomaly_detection")
         # load dataset
         self.x, self.y, self.mask = self.load_dataset_folder()
-        
 
         # set transforms
         if transform:
@@ -391,7 +406,6 @@ class MVTecDataset_High_VAR(Dataset):
 
     def __len__(self):
         return len(self.x)
-
 
     def load_dataset_folder(self):
         phase = "train" if self.is_train else "test"
@@ -440,13 +454,13 @@ class FakeCIFAR100(Dataset):
         self.transform = transform
         self.image_files = []
         for i in range(len(category)):
-            img_files = list(np.load("./cifar100_training_gen_data.npy")[2500*i:2500*(i+1)])
-            if count[i]<len(img_files):
+            img_files = list(np.load("./cifar100_training_gen_data.npy")[2500 * i:2500 * (i + 1)])
+            if count[i] < len(img_files):
                 img_files = img_files[:count[i]]
             else:
                 t = len(img_files)
-                for i in range(count[i]-t):
-                    img_files.append(random.choice(img_files[:t]))            
+                for i in range(count[i] - t):
+                    img_files.append(random.choice(img_files[:t]))
             self.image_files += img_files
         # self.image_files.sort(key=lambda y: y.lower())
 
@@ -455,6 +469,7 @@ class FakeCIFAR100(Dataset):
         if self.transform is not None:
             image = self.transform(image)
         return image, -1
+
     def __len__(self):
         return len(self.image_files)
 
@@ -465,12 +480,12 @@ class FakeDTD(Dataset):
         self.image_files = []
         for i in range(len(category)):
             img_files = list(np.load(f"./DTD_{category[i]}_X.npy"))
-            if count[i]<len(img_files):
+            if count[i] < len(img_files):
                 img_files = img_files[:count[i]]
             else:
                 t = len(img_files)
-                for i in range(count[i]-t):
-                    img_files.append(random.choice(img_files[:t]))            
+                for i in range(count[i] - t):
+                    img_files.append(random.choice(img_files[:t]))
             self.image_files += img_files
         '''
         for i in range(len(category)):
@@ -485,13 +500,13 @@ class FakeDTD(Dataset):
         '''
 
     def __getitem__(self, index):
-        image = Image.fromarray((self.image_files[index].transpose(1, 2, 0)*255).astype(np.uint8))
+        image = Image.fromarray((self.image_files[index].transpose(1, 2, 0) * 255).astype(np.uint8))
         if self.transform is not None:
             image = self.transform(image)
         return image, -1
+
     def __len__(self):
         return len(self.image_files)
-
 
 
 class UCSDDataset(Dataset):
@@ -513,7 +528,7 @@ class UCSDDataset(Dataset):
         else:
             sub_dir = 'Train'
 
-        video_dir = glob(os.path.join(self.root, base_dir, sub_dir, sub_dir+'*'))
+        video_dir = glob(os.path.join(self.root, base_dir, sub_dir, sub_dir + '*'))
         self.video_dir = sorted([x for x in video_dir if re.fullmatch('.*\d\d\d', x)])
         self.videos_len = []
         self.images_dir = []
@@ -523,8 +538,6 @@ class UCSDDataset(Dataset):
             self.videos_len.append(len(images))
         self.num_samples = len(self.images_dir)
         self.labels = self._gather_labels()
-
-
 
     def __getitem__(self, index):
         with rasterio.open(self.images_dir[index]) as image:
@@ -547,12 +560,11 @@ class UCSDDataset(Dataset):
             base_dir = 'UCSDped1'
         if self.dataset == 'ped2':
             base_dir = 'UCSDped2'
-        
+
         with open(os.path.join(self.root, base_dir, 'Test', f'{base_dir}.m'), 'r') as file:
             lines = file.readlines()
 
         annotations = []
-
 
         video_index = 0
         # Iterate over the lines
@@ -565,7 +577,7 @@ class UCSDDataset(Dataset):
             frame_mask = np.zeros(self.videos_len[video_index], dtype=bool)
             for match in matches:
                 start, end = map(int, match.split(':'))
-                frame_mask[start-1:end] = True
+                frame_mask[start - 1:end] = True
 
             annotations.append(frame_mask)
             video_index += 1
@@ -577,7 +589,6 @@ class UCSDDataset(Dataset):
             label = 0
         else:
             label = 1 if self.labels[index] else 0
-            
 
         return label
 
@@ -585,6 +596,44 @@ class UCSDDataset(Dataset):
         return len(self.images_dir)
 
 
+####################################33
+class chest(torch.utils.data.Dataset):
+    def __init__(self, transform=None, train=True):
+        self.transform = transform
+        self.train = train
+        self.image_files = []
+
+        if train:
+            self.image_files = glob(os.path.join('./MRI', 'Training', '*', '*.png'))
+        else:
+            self.image_files = glob(os.path.join('./MRI', 'Testing', '*', '*.png'))
+
+        self.image_files.sort(key=lambda y: y.lower())
+        #
+        # if count:
+        #     self.image_files = self.image_files[:count]
+
+    def __getitem__(self, index):
+        image_file = self.image_files[index]
+        image = Image.open(image_file)
+        image = image.convert('RGB')
+        image = image.resize((256, 256))
+
+        if self.transform:
+            image = self.transform(image)
+        target = 0
+        if "normal" in os.path.dirname(image_file):
+            target = 0
+        elif "abnormal" in os.path.dirname(image_file):
+            target = 1
+
+        return image, target
+
+    def __len__(self):
+        return len(self.image_files)
+
+
+##############################################################
 
 
 class TumorDetection(torch.utils.data.Dataset):
@@ -593,23 +642,23 @@ class TumorDetection(torch.utils.data.Dataset):
         self.transform = transform
         if train:
             self.image_files = glob(
-                os.path.join( './MRI', "Training", "notumor", "*.jpg")
+                os.path.join('./MRI', "Training", "notumor", "*.jpg")
             )
         else:
-          image_files = glob(os.path.join( './MRI', "Testing", "*", "*.jpg"))
-          normal_image_files = glob(os.path.join( './MRI', "./Testing", "notumor", "*.jpg"))
-          anomaly_image_files = list(set(image_files) - set(normal_image_files))
-          self.image_files = image_files
+            image_files = glob(os.path.join('./MRI', "Testing", "*", "*.jpg"))
+            normal_image_files = glob(os.path.join('./MRI', "./Testing", "notumor", "*.jpg"))
+            anomaly_image_files = list(set(image_files) - set(normal_image_files))
+            self.image_files = image_files
 
         if count is not None:
             if count > len(self.image_files):
                 self.image_files = self._oversample(count)
             else:
-                self.image_files  = self._undersample(count)
+                self.image_files = self._undersample(count)
 
         self.image_files.sort(key=lambda y: y.lower())
         self.train = train
-    
+
     def _download_and_extract(self):
         google_id = '1AOPOfQ05aSrr2RkILipGmEkgLDrZCKz_'
         file_path = os.path.join('./MRI', 'Training')
@@ -622,28 +671,27 @@ class TumorDetection(torch.utils.data.Dataset):
 
         if not os.path.exists(file_path):
             subprocess.run(['gdown', google_id, '-O', './MRI/archive(3).zip'])
-        
+
         with zipfile.ZipFile("./MRI/archive(3).zip", 'r') as zip_ref:
             zip_ref.extractall("./MRI/")
 
-        os.rename(  "./MRI/Training/glioma", "./MRI/Training/glioma_tr")
-        os.rename(  "./MRI/Training/meningioma", "./MRI/Training/meningioma_tr")
-        os.rename(  "./MRI/Training/pituitary", "./MRI/Training/pituitary_tr")
-        
-        shutil.move("./MRI/Training/glioma_tr","./MRI/Testing")
-        shutil.move("./MRI/Training/meningioma_tr","./MRI/Testing")
-        shutil.move("./MRI/Training/pituitary_tr","./MRI/Testing")
+        os.rename("./MRI/Training/glioma", "./MRI/Training/glioma_tr")
+        os.rename("./MRI/Training/meningioma", "./MRI/Training/meningioma_tr")
+        os.rename("./MRI/Training/pituitary", "./MRI/Training/pituitary_tr")
 
+        shutil.move("./MRI/Training/glioma_tr", "./MRI/Testing")
+        shutil.move("./MRI/Training/meningioma_tr", "./MRI/Testing")
+        shutil.move("./MRI/Training/pituitary_tr", "./MRI/Testing")
 
     def __getitem__(self, index):
         image_file = self.image_files[index]
         image = Image.open(image_file)
         image = image.convert('RGB')
         image = image.resize((256, 256))
-        
+
         if self.transform:
             image = self.transform(image)
-        
+
         if "notumor" in os.path.dirname(image_file):
             target = 0
         else:
@@ -653,7 +701,6 @@ class TumorDetection(torch.utils.data.Dataset):
 
     def __len__(self):
         return len(self.image_files)
-
 
     def _oversample(self, count):
         num_extra_samples = count - len(self.image_files)
@@ -668,20 +715,19 @@ class TumorDetection(torch.utils.data.Dataset):
         return new_image_files
 
 
-
 class BrainMRI(Dataset):
     def __init__(self, image_path, labels, transform=None, count=-1):
         self.transform = transform
         self.image_files = image_path
         self.labels = labels
         if count != -1:
-            if count<len(self.image_files):
+            if count < len(self.image_files):
                 self.image_files = self.image_files[:count]
                 self.labels = self.labels[:count]
 
             else:
                 t = len(self.image_files)
-                for i in range(count-t):
+                for i in range(count - t):
                     self.image_files.append(random.choice(self.image_files[:t]))
                     self.labels.append(random.choice(self.labels[:t]))
 
@@ -692,11 +738,9 @@ class BrainMRI(Dataset):
         if self.transform is not None:
             image = self.transform(image)
         return image, self.labels[index]
-    
+
     def __len__(self):
         return len(self.image_files)
-
-
 
 
 class AdaptiveExposure(Dataset):
@@ -719,10 +763,10 @@ class AdaptiveExposure(Dataset):
         image = Image.open(image_file)
         image = image.convert('RGB')
         image = image.resize((256, 256))
-        
+
         if self.transform:
             image = self.transform(image)
-        
+
         return image, 1
 
     def _oversample(self, count):
@@ -742,22 +786,22 @@ class HEAD_CT_FAKE(Dataset):
     def __init__(self, transform=None, count=6000):
         self.transform = transform
         self.image_files = list(np.load("./Head-CT-50.npy"))
-        if count<len(self.image_files):
+        if count < len(self.image_files):
             self.image_files = self.image_files[:count]
         else:
             t = len(self.image_files)
-            for i in range(count-t):
+            for i in range(count - t):
                 self.image_files.append(random.choice(self.image_files[:t]))
 
     def __getitem__(self, index):
-        image = Image.fromarray((self.image_files[index].transpose(1, 2, 0)*255).astype(np.uint8))
+        image = Image.fromarray((self.image_files[index].transpose(1, 2, 0) * 255).astype(np.uint8))
         if self.transform is not None:
             image = self.transform(image)
         target = 1
         return image, target
+
     def __len__(self):
         return len(self.image_files)
-
 
 
 import torch
@@ -766,9 +810,10 @@ from torch.utils.data import Dataset, DataLoader
 import numpy as np
 from PIL import Image
 
+
 def sparse2coarse(targets):
     coarse_labels = np.array(
-        [4,1,14, 8, 0, 6, 7, 7, 18, 3, 3,
+        [4, 1, 14, 8, 0, 6, 7, 7, 18, 3, 3,
          14, 9, 18, 7, 11, 3, 9, 7, 11, 6, 11, 5,
          10, 7, 6, 13, 15, 3, 15, 0, 11, 1, 10,
          12, 14, 16, 9, 11, 5, 5, 19, 8, 8, 15,
@@ -776,11 +821,13 @@ def sparse2coarse(targets):
          17, 4, 18, 17, 10, 3, 2, 12, 12, 16, 12,
          1, 9, 19, 2, 10, 0, 1, 16, 12, 9, 13,
          15, 13, 16, 19, 2, 4, 6, 19, 5, 5, 8,
-         19, 18, 1, 2, 15, 6, 0, 17, 8, 14, 13,])
+         19, 18, 1, 2, 15, 6, 0, 17, 8, 14, 13, ])
     return coarse_labels[targets]
 
+
 class CIFAR_CORRUCPION(Dataset):
-    def __init__(self, transform=None, normal_idx = [0], cifar_corruption_label = 'CIFAR-10-C/labels.npy', cifar_corruption_data = './CIFAR-10-C/defocus_blur.npy'):
+    def __init__(self, transform=None, normal_idx=[0], cifar_corruption_label='CIFAR-10-C/labels.npy',
+                 cifar_corruption_data='./CIFAR-10-C/defocus_blur.npy'):
         self.labels_10 = np.load(cifar_corruption_label)
         self.labels_10 = self.labels_10[:10000]
         if cifar_corruption_label == 'CIFAR-100-C/labels.npy':
@@ -801,16 +848,18 @@ class CIFAR_CORRUCPION(Dataset):
         self.labels_10[normal_indice] = 0
         self.labels_10[anomaly_indice] = 1
         '''
+
     def __getitem__(self, index):
         x = self.data[index]
         y = self.labels_10[index]
         if self.transform:
             x = Image.fromarray((x * 255).astype(np.uint8))
-            x = self.transform(x)    
+            x = self.transform(x)
         return x, y
-    
+
     def __len__(self):
         return len(self.data)
+
 
 class MNIST_CORRUPTION(Dataset):
     def __init__(self, root_dir, corruption_type, transform=None, train=True):
@@ -824,21 +873,21 @@ class MNIST_CORRUPTION(Dataset):
         if os.path.exists(folder):
             shutil.rmtree(folder)
         os.makedirs(folder)
-        
+
         if train:
             data = np.load(os.path.join(root_dir, corruption_type, 'train_images.npy'))
             labels = np.load(os.path.join(root_dir, corruption_type, 'train_labels.npy'))
         else:
             data = np.load(os.path.join(root_dir, corruption_type, 'test_images.npy'))
             labels = np.load(os.path.join(root_dir, corruption_type, 'test_labels.npy'))
-            
+
         self.labels = labels
         self.image_paths = []
 
         for idx, img in enumerate(data):
             path = os.path.join(folder, f"{idx}.png")
             self.image_paths.append(path)
-            
+
             if not os.path.exists(path):
                 img_pil = torchvision.transforms.ToPILImage()(img)
                 img_pil.save(path)
@@ -848,46 +897,47 @@ class MNIST_CORRUPTION(Dataset):
 
     def __getitem__(self, idx):
         image_path = self.image_paths[idx]
-        image = Image.open(image_path).convert("RGB") 
+        image = Image.open(image_path).convert("RGB")
 
         if self.transform:
             image = self.transform(image)
 
         label = self.labels[idx]
         return image, label
-    
+
+
 class MyDataset_Binary(torch.utils.data.Dataset):
-  'Characterizes a dataset for PyTorch'
-  def __init__(self, x, labels,transform=None, cutpast_transformation=None):
+    'Characterizes a dataset for PyTorch'
+
+    def __init__(self, x, labels, transform=None, cutpast_transformation=None):
         'Initialization'
         self.labels = labels
         self.x = x
         self.transform = transform
         self.cutpast_transformation = cutpast_transformation
-  def __len__(self):
+
+    def __len__(self):
         'Denotes the total number of samples'
         return len(self.x)
 
-  def __getitem__(self, index):
+    def __getitem__(self, index):
         'Generates one sample of data'
         if self.cutpast_transformation:
-           # print(self.x[index])
-           # print(self.labels[index])
-           # x = Image.fromarray((np.array(self.x[index]).transpose(1, 2, 0) * 255).astype(np.uint8))
-           x = self.cutpast_transformation(x)
-           y = self.labels[index]
+            # print(self.x[index])
+            # print(self.labels[index])
+            # x = Image.fromarray((np.array(self.x[index]).transpose(1, 2, 0) * 255).astype(np.uint8))
+            x = self.cutpast_transformation(x)
+            y = self.labels[index]
         elif self.transform is None:
-          x =  self.x[index]
-          y = self.labels[index]
+            x = self.x[index]
+            y = self.labels[index]
         else:
-           x = self.transform(self.x[index])
-           y = self.labels[index]         
+            x = self.transform(self.x[index])
+            y = self.labels[index]
         return x, y
 
 
-
 class DIOR(Dataset):
-
     links = {
         "train": [
             "https://drive.google.com/file/d/1--NeRTtWINde8GURrstElpL0OtLhR80J/view?usp=sharing",
@@ -901,7 +951,8 @@ class DIOR(Dataset):
         ]
     }
 
-    def __init__(self, root, train=True, download=False, transform=None, target_transform=None, count=-1, verbose=False, **kwargs):
+    def __init__(self, root, train=True, download=False, transform=None, target_transform=None, count=-1, verbose=False,
+                 **kwargs):
         super(DIOR, self).__init__()
         self.root = root
         self.train = train
@@ -913,7 +964,7 @@ class DIOR(Dataset):
             self._download_and_extract()
         self.data, self.targets, self.classes = self._load_data()
         self._balance_data()
-    
+
     def _download_and_extract(self):
         if not os.path.exists(self.root):
             os.makedirs(self.root)
@@ -927,14 +978,14 @@ class DIOR(Dataset):
 
         if not os.path.exists(file_path):
             gdown.download(link[0], file_path, quiet=not self.verbose, fuzzy=True)
-        
+
         data_path = os.path.join(self.root, link[2])
         if not os.path.exists(data_path):
             os.makedirs(data_path)
-        
+
         with zipfile.ZipFile(file_path, 'r') as zip_ref:
             zip_ref.extractall(data_path)
-    
+
     def _load_data(self):
         if self.train:
             data_path = os.path.join(self.root, self.links["train"][2])
@@ -948,15 +999,15 @@ class DIOR(Dataset):
         img_dir = os.path.join(data_path, 'train' if self.train else 'test')
         data = [os.path.join(img_dir, f'{idx:0>5}.jpg') for idx in range(len(targets))]
         return data, targets, classes
-    
+
     def _balance_data(self):
         if self.count == -1:
             return
         # TODO: Implement data balancing
-    
+
     def __len__(self):
         return len(self.data)
-    
+
     def __getitem__(self, index):
         image_name = self.data[index]
         target = self.targets[index]
@@ -965,23 +1016,24 @@ class DIOR(Dataset):
             target = self.target_transform(target)
         if self.transform is not None:
             img = self.transform(img)
-        
+
         return img, target
 
 
 class DIOR_OOD(DIOR):
 
-    def __init__(self, root, train=True, download=False, transform=None, target_transform=None, count=-1, verbose=False, normal_classes=0, **kwargs):
+    def __init__(self, root, train=True, download=False, transform=None, target_transform=None, count=-1, verbose=False,
+                 normal_classes=0, **kwargs):
         super().__init__(root, train, download, transform, target_transform, count, verbose, **kwargs)
         if not isinstance(normal_classes, list):
             normal_classes = [normal_classes]
         self.normal_classes = normal_classes
         if self.verbose:
             print(f'Normal classes: {[self.classes[i] for i in normal_classes]}')
-    
+
     def __len__(self):
         return super().__len__()
-    
+
     def __getitem__(self, index):
         img, target = super().__getitem__(index)
         if target in self.normal_classes:
@@ -993,8 +1045,10 @@ class DIOR_OOD(DIOR):
 
 if __name__ == '__main__':
     from torchvision import transforms
+
     transform = transforms.Resize([224, 224])
-    dior_ood = DIOR_OOD(root='.', train=False, download=False, normal_classes=[0, 1, 2, 3, 4, 5, 6, 7, 8, 15, 16, 17], verbose=True, transform=transform)
+    dior_ood = DIOR_OOD(root='.', train=False, download=False, normal_classes=[0, 1, 2, 3, 4, 5, 6, 7, 8, 15, 16, 17],
+                        verbose=True, transform=transform)
 
     # Visualize some data points
     import numpy as np
@@ -1006,22 +1060,24 @@ if __name__ == '__main__':
     samples = [dior_ood[idx] for idx in rand_idx]
     for i in range(4):
         for j in range(4):
-            image, target = samples[4*i+j]
+            image, target = samples[4 * i + j]
             axs[i, j].imshow(image)
             axs[i, j].title.set_text(target)
     plt.show()
 
+
 class WBC_DATASET(torch.utils.data.Dataset):
-  'Characterizes a dataset for PyTorch'
-  def __init__(self, train=True, transform=None, normal_set=[1, 2], path ="./CELL_MIR/trainig/"):
+    'Characterizes a dataset for PyTorch'
+
+    def __init__(self, train=True, transform=None, normal_set=[1, 2], path="./CELL_MIR/trainig/"):
         'Initialization'
         np.random.seed(47)
-        df=pd.read_csv("./segmentation_WBC/Class Labels of Dataset 1.csv")
+        df = pd.read_csv("./segmentation_WBC/Class Labels of Dataset 1.csv")
         self.labels = df['class label'].to_numpy()
         data_id = df['image ID'].to_numpy()
-        self.data_path = np.array([(path+str("%03d" % p)+'.png') for p in data_id])
+        self.data_path = np.array([(path + str("%03d" % p) + '.png') for p in data_id])
 
-        self.labels = self.labels-1
+        self.labels = self.labels - 1
         self.data_path = self.data_path
 
         training_normal = []
@@ -1032,8 +1088,8 @@ class WBC_DATASET(torch.utils.data.Dataset):
                 if l in [normal]:
                     normal_idx.append(i)
             np.random.shuffle(normal_idx)
-            training_normal = training_normal + normal_idx[:int(len(normal_idx)*0.8)]
-            test_normal = test_normal + normal_idx[int(len(normal_idx)*0.8):]
+            training_normal = training_normal + normal_idx[:int(len(normal_idx) * 0.8)]
+            test_normal = test_normal + normal_idx[int(len(normal_idx) * 0.8):]
         print("number of training_normal:", len(training_normal))
         print("number of test_normal:", len(test_normal))
 
@@ -1043,24 +1099,25 @@ class WBC_DATASET(torch.utils.data.Dataset):
             self.labels = self.labels[training_normal]
             self.data_path = self.data_path[training_normal]
         else:
-            test_anomaly= np.arange(300)
-            test_anomaly = np. setdiff1d(test_anomaly, training_normal+test_normal)
+            test_anomaly = np.arange(300)
+            test_anomaly = np.setdiff1d(test_anomaly, training_normal + test_normal)
             print("number of test_anomaly:", len(test_anomaly))
 
             self.labels[test_anomaly] = 1
             self.labels[test_normal] = 0
-            test_idx = np.concatenate((test_anomaly,test_normal)).astype(int)
+            test_idx = np.concatenate((test_anomaly, test_normal)).astype(int)
             self.labels = self.labels[test_idx]
             self.data_path = self.data_path[test_idx]
 
         # print("len(self.labels), len(self.data_path)", len(self.labels), len(self.data_path))
         # print(list(zip(self.data_path, self.labels)))
         self.transform = transform
-  def __len__(self):
+
+    def __len__(self):
         'Denotes the total number of samples'
         return len(self.labels)
 
-  def __getitem__(self, index):
+    def __getitem__(self, index):
         'Generates one sample of data'
         image_file = self.data_path[index]
         image = Image.open(image_file)
@@ -1069,10 +1126,11 @@ class WBC_DATASET(torch.utils.data.Dataset):
             image = self.transform(image)
         return image, self.labels[index]
 
+
 from torchvision.datasets import CIFAR10
 
-class ArtBench10(CIFAR10):
 
+class ArtBench10(CIFAR10):
     base_folder = "artbench-10-batches-py"
     url = "https://artbench.eecs.berkeley.edu/files/artbench-10-python.tar.gz"
     filename = "artbench-10-python.tar.gz"
@@ -1095,19 +1153,18 @@ class ArtBench10(CIFAR10):
     }
 
 
-
 class ISIC2018(Dataset):
     def __init__(self, image_path, labels, transform=None, count=-1):
         self.transform = transform
         self.image_files = image_path
         self.labels = labels
         if count != -1:
-            if count<len(self.image_files):
+            if count < len(self.image_files):
                 self.image_files = self.image_files[:count]
                 self.labels = self.labels[:count]
             else:
                 t = len(self.image_files)
-                for i in range(count-t):
+                for i in range(count - t):
                     self.image_files.append(random.choice(self.image_files[:t]))
                     self.labels.append(random.choice(self.labels[:t]))
 
@@ -1128,7 +1185,7 @@ class ImageNet30_Dataset(Dataset):
         self.transform = transform
         self.image_files = image_path
         self.labels = labels
-        
+
     def __getitem__(self, index):
         image_file = self.image_files[index]
         image = Image.open(image_file)
@@ -1146,7 +1203,7 @@ class Custom_Dataset(Dataset):
         self.transform = transform
         self.image_files = image_path
         self.targets = targets
-        
+
     def __getitem__(self, index):
         image_file = self.image_files[index]
         image = Image.open(image_file)
@@ -1157,7 +1214,6 @@ class Custom_Dataset(Dataset):
 
     def __len__(self):
         return len(self.image_files)
-        
 
 
 class CustomCub2011(Dataset):
@@ -1174,7 +1230,6 @@ class CustomCub2011(Dataset):
 
         self.loader = loader
         self.train = train
-
 
         if download:
             self._download()
@@ -1245,7 +1300,6 @@ class CustomCub2011(Dataset):
 
 
 def subsample_dataset(dataset, idxs):
-
     mask = np.zeros(len(dataset)).astype('bool')
     mask[idxs] = True
 
@@ -1256,8 +1310,7 @@ def subsample_dataset(dataset, idxs):
 
 
 def subsample_classes(dataset, include_classes=range(160)):
-
-    include_classes_cub = np.array(include_classes) + 1     # CUB classes are indexed 1 --> 200 instead of 0 --> 199
+    include_classes_cub = np.array(include_classes) + 1  # CUB classes are indexed 1 --> 200 instead of 0 --> 199
     cls_idxs = [x for x, (_, r) in enumerate(dataset.data.iterrows()) if int(r['target']) in include_classes_cub]
 
     target_xform_dict = {}

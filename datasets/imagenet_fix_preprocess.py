@@ -62,5 +62,5 @@ if not os.path.exists('./Imagenet_fix'):
 check = time.time()
 for i in range(10000):
     save_image(total_test_image[i], f'Imagenet_fix/correct_resize_{i}.png')
-print (f'Saving time {time.time()-check}')
+print (f'Saving time {time.time() - check}')
 
