@@ -8,9 +8,8 @@ from torch.utils.data.dataset import Subset
 from torchvision.datasets import ImageFolder
 ##
 import sys
-print(sys.path,"@@@@@@@@@@@@@@@")
 
-sys.path.append("..")
+sys.path.append("/kaggle/working")
 print(sys.path,"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111")
 ##
 # from utils_.utils import set_random_seed
