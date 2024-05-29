@@ -314,7 +314,7 @@ def get_exposure_dataloader(P, batch_size=64, image_size=(224, 224, 3),
             cutpast_train_set = set_dataset_count(cutpast_train_set, count=cutpast_count)
         else:
             print("cls_list(normal class)", cls_list)
-            cutpast_train_set = get_subclass_dataset(cutpast_train_set, classes=cls_list, count=cutpast_count)
+            cutpast_train_set = get_subclass_dataset(P,cutpast_train_set, classes=cls_list, count=cutpast_count)
         print("len(cutpast_train_set) after set_count: ", len(cutpast_train_set))
 
         imagenet_exposure = ImageNetExposure(root=base_path, count=tiny_count, transform=tiny_transform)
@@ -1561,7 +1561,7 @@ def get_superclass_list(dataset):
         raise NotImplementedError()
 
 
-def get_subclass_dataset(dataset, classes, count=-1):
+def get_subclass_dataset(P,dataset, classes, count=-1):
     if not isinstance(classes, list):
         classes = [classes]
 

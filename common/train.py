@@ -81,8 +81,8 @@ if P.dataset == 'cub-birds' or P.dataset == 'ISIC2018' or P.dataset == 'high-var
     else:
         test_set = get_subclass_dataset(P, test_set, classes=[0])
 else:
-    train_set = get_subclass_dataset(P, train_set, classes=normal_labels, count=P.main_count)
-    test_set = get_subclass_dataset(P, test_set, classes=normal_labels)
+    train_set = get_subclass_dataset(P, train_set, classes=[0], count=P.main_count)
+    test_set = get_subclass_dataset(P, test_set, classes=[0])
 
 print("number of normal test set:", len(test_set))
 print("number of normal train set:", len(train_set))
