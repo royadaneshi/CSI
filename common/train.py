@@ -31,9 +31,11 @@ device = torch.device(f"cuda" if torch.cuda.is_available() else "cpu")
 P.n_gpus = torch.cuda.device_count()
 
 if P.n_gpus > 1:
-    import apex
+    # import apex
     import torch.distributed as dist
     from torch.utils.data.distributed import DistributedSampler
+
+    from torch.nn.parallel import DistributedDataParallel as DDP
 
     P.multi_gpu = True
     torch.distributed.init_process_group(
@@ -163,8 +165,13 @@ if P.mode == 'sup_linear' or P.mode == 'sup_CSI_linear':
     model.load_state_dict(checkpoint, strict=not P.no_strict)
 
 if P.multi_gpu:
-    simclr_aug = apex.parallel.DistributedDataParallel(simclr_aug, delay_allreduce=True)
-    model = apex.parallel.convert_syncbn_model(model)
-    model = apex.parallel.DistributedDataParallel(model, delay_allreduce=True)
+    # simclr_aug = apex.parallel.DistributedDataParallel(simclr_aug, delay_allreduce=True)
+    # model = apex.parallel.convert_syncbn_model(model)
+    # model = apex.parallel.DistributedDataParallel(model, delay_allreduce=True)
+    #
+    simclr_aug = DDP(simclr_aug, device_ids=[P.local_rank], output_device=P.local_rank)
+    model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
+    model = DDP(model, device_ids=[P.local_rank], output_device=P.local_rank)
+
 
 count_parameters(model)
