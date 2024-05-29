@@ -611,10 +611,11 @@ class chest(torch.utils.data.Dataset):
 
         self.image_files.sort(key=lambda y: y.lower())
 
-        if count:
-            self.image_files = self.image_files[:count]
+        # if count:
+        #     self.image_files = self.image_files[:count]
 
     def __getitem__(self, index):
+        print(len(self.image_files),"---",index)
         image_file = self.image_files[index]
         image = Image.open(image_file)
         image = image.convert('RGB')
