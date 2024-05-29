@@ -603,11 +603,10 @@ class chest(torch.utils.data.Dataset):
         self.train = train
         self.image_files = []
 
-
         if train:
-            self.image_files = glob(os.path.join('/kaggle/input/chest-datasett256/chest_dataset/train', '*.png'))
+            self.image_files = glob(os.path.join('./chest-datasett256/chest_dataset/train', '*.png'))
         else:
-            self.image_files = glob(os.path.join('/kaggle/input/chest-datasett256/chest_dataset/test', '*.png'))
+            self.image_files = glob(os.path.join('./chest-datasett256/chest_dataset/test', '*.png'))
 
         self.image_files.sort(key=lambda y: y.lower())
 
@@ -615,7 +614,7 @@ class chest(torch.utils.data.Dataset):
         #     self.image_files = self.image_files[:count]
 
     def __getitem__(self, index):
-        print(len(self.image_files),"---",index)
+        print(len(self.image_files), "---", index)
         image_file = self.image_files[index]
         image = Image.open(image_file)
         image = image.convert('RGB')
@@ -643,9 +642,7 @@ class TumorDetection(torch.utils.data.Dataset):
         self._download_and_extract()
         self.transform = transform
         if train:
-            self.image_files = glob(
-                os.path.join('./MRI', "Training", "notumor", "*.jpg")
-            )
+            self.image_files = glob(os.path.join('./MRI', "Training", "notumor", "*.jpg"))
         else:
             image_files = glob(os.path.join('./MRI', "Testing", "*", "*.jpg"))
             normal_image_files = glob(os.path.join('./MRI', "./Testing", "notumor", "*.jpg"))
