@@ -1560,7 +1560,6 @@ def get_superclass_list(dataset):
     else:
         raise NotImplementedError()
 
-
 def get_subclass_dataset(P,dataset, classes, count=-1):
     if not isinstance(classes, list):
         classes = [classes]
