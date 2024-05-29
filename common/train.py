@@ -32,6 +32,12 @@ P.n_gpus = torch.cuda.device_count()
 
 if P.n_gpus > 1:
     # import apex
+    import os
+    if 'MASTER_ADDR' not in os.environ:
+        os.environ['MASTER_ADDR'] = 'localhost'
+    if 'MASTER_PORT' not in os.environ:
+        os.environ['MASTER_PORT'] = '12355'
+
     import torch.distributed as dist
     from torch.utils.data.distributed import DistributedSampler
 
