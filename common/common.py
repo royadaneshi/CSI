@@ -7,7 +7,7 @@ def parse_args(default=False):
     parser = ArgumentParser(description='Pytorch implementation of CSI')
 
     parser.add_argument('--dataset', help='Dataset',
-                        choices=['STL-10', 'cub-birds', 'stanford-cars', 'cifar100-versus-other-eval', 'cifar10-versus-other-eval', 'ISIC2018', 'ArtBench', 'high-variational-brain-tumor', 'svhn-10-corruption', 'mvtec-high-var-corruption', 'cifar100-corruption', 'cifar100-versus-10', 'cifar10-versus-100', 'WBC', 'dtd', 'cifar10-corruption', 'mnist-corruption', 'Tomor_Detection', 'ucsd', 'mvtec-high-var', 'breastmnist', 'head-ct', 'fashion-mnist', 'mnist', 'cifar10', 'cifar100', 'imagenet', 'svhn-10', 'MVTecAD', 'dior'],
+                        choices=['chest','STL-10', 'cub-birds', 'stanford-cars', 'cifar100-versus-other-eval', 'cifar10-versus-other-eval', 'ISIC2018', 'ArtBench', 'high-variational-brain-tumor', 'svhn-10-corruption', 'mvtec-high-var-corruption', 'cifar100-corruption', 'cifar100-versus-10', 'cifar10-versus-100', 'WBC', 'dtd', 'cifar10-corruption', 'mnist-corruption', 'Tomor_Detection', 'ucsd', 'mvtec-high-var', 'breastmnist', 'head-ct', 'fashion-mnist', 'mnist', 'cifar10', 'cifar100', 'imagenet', 'svhn-10', 'MVTecAD', 'dior'],
                         default="cifar10", type=str)
     parser.add_argument('--outlier_dataset', help='',
                             default="mnist",choices=['imagenet30', 'mnist', 'svhn', 'fashion-mnist'] ,type=str)
