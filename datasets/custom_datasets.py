@@ -608,11 +608,10 @@ class chest(torch.utils.data.Dataset):
         else:
             self.image_files = glob(os.path.join('/kaggle/input/chest-datasett256/chest_dataset/test', '*.png'))
 
-
         self.image_files.sort(key=lambda y: y.lower())
-        #
-        # if count:
-        #     self.image_files = self.image_files[:count]
+
+        if count:
+            self.image_files = self.image_files[:count]
 
     def __getitem__(self, index):
         image_file = self.image_files[index]
