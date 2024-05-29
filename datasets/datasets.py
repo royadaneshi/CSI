@@ -513,6 +513,7 @@ def get_exposure_dataloader(P, batch_size=64, image_size=(224, 224, 3),
         else:
             exposureset = torch.utils.data.ConcatDataset([cutpast_train_set, imagenet_exposure])
 
+
         if len(cutpast_train_set) > 0:
             print("number of cutpast data:", len(cutpast_train_set), 'shape:', cutpast_train_set[0][0].shape)
         print("number of tiny data:", len(imagenet_exposure), 'shape:', imagenet_exposure[0][0].shape)
