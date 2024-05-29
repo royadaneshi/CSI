@@ -521,7 +521,6 @@ def get_exposure_dataloader(P, batch_size=64, image_size=(224, 224, 3),
         train_loader = DataLoader(exposureset, batch_size=batch_size, shuffle=True)
     return train_loader
 
-
 def get_breastmnist_test(normal_class_indx, path, transform):
     data_flag = 'breastmnist'
     BATCH_SIZE = 64
