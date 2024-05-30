@@ -9,8 +9,6 @@ from utils_.utils import AverageMeter, normalize
 device = torch.device(f"cuda" if torch.cuda.is_available() else "cpu")
 hflip = TL.HorizontalFlipLayer().to(device)
 
-
-
 def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposure_loader=None, logger=None,
           simclr_aug=None, linear=None, linear_optim=None):
     assert simclr_aug is not None
