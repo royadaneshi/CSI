@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="debug2">
+      <change beforePath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="fig" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2gUkIZGc3ilMPuP1EmpAz9If73J" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Python.imagenet_fix_preprocess.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/ubuntu/PycharmProjects/322&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-babbdf50b680-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.15989.155" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="" />
+      <created>1715759466089</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1715759466089</updated>
+    </task>
+    <task id="LOCAL-00001" summary="raw">
+      <option name="closed" value="true" />
+      <created>1715759597875</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1715759597875</updated>
+    </task>
+    <task id="LOCAL-00002" summary="raw">
+      <option name="closed" value="true" />
+      <created>1715759737947</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1715759737947</updated>
+    </task>
+    <task id="LOCAL-00003" summary="raw">
+      <option name="closed" value="true" />
+      <created>1715759894337</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1715759894337</updated>
+    </task>
+    <task id="LOCAL-00004" summary="ADD chest dataset">
+      <option name="closed" value="true" />
+      <created>1716905769884</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1716905769884</updated>
+    </task>
+    <task id="LOCAL-00005" summary="adjust the path for loading the dataset">
+      <option name="closed" value="true" />
+      <created>1716908597933</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1716908597933</updated>
+    </task>
+    <task id="LOCAL-00006" summary="adjust the path for loading the dataset">
+      <option name="closed" value="true" />
+      <created>1716908733540</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1716908733540</updated>
+    </task>
+    <task id="LOCAL-00007" summary="resolve some import problems">
+      <option name="closed" value="true" />
+      <created>1716909676436</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1716909676436</updated>
+    </task>
+    <task id="LOCAL-00008" summary="debug">
+      <option name="closed" value="true" />
+      <created>1716910892164</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1716910892164</updated>
+    </task>
+    <task id="LOCAL-00009" summary="debug">
+      <option name="closed" value="true" />
+      <created>1716913198895</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1716913198895</updated>
+    </task>
+    <task id="LOCAL-00010" summary="debug">
+      <option name="closed" value="true" />
+      <created>1716914260950</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1716914260950</updated>
+    </task>
+    <task id="LOCAL-00011" summary="debug">
+      <option name="closed" value="true" />
+      <created>1716960806827</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1716960806827</updated>
+    </task>
+    <task id="LOCAL-00012" summary="resolve problems in imports">
+      <option name="closed" value="true" />
+      <created>1716961049456</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1716961049456</updated>
+    </task>
+    <task id="LOCAL-00013" summary="add chest dataset">
+      <option name="closed" value="true" />
+      <created>1716961715975</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1716961715975</updated>
+    </task>
+    <task id="LOCAL-00014" summary="add chest dataset">
+      <option name="closed" value="true" />
+      <created>1716962184068</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1716962184068</updated>
+    </task>
+    <task id="LOCAL-00015" summary="resolve index error">
+      <option name="closed" value="true" />
+      <created>1716962746400</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1716962746400</updated>
+    </task>
+    <task id="LOCAL-00016" summary="resolve index error">
+      <option name="closed" value="true" />
+      <created>1716962884407</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1716962884407</updated>
+    </task>
+    <task id="LOCAL-00017" summary="resolve index error">
+      <option name="closed" value="true" />
+      <created>1716963217655</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1716963217655</updated>
+    </task>
+    <task id="LOCAL-00018" summary="resolve address path">
+      <option name="closed" value="true" />
+      <created>1716964401147</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1716964401147</updated>
+    </task>
+    <task id="LOCAL-00019" summary="resolve address path">
+      <option name="closed" value="true" />
+      <created>1716964822556</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1716964822556</updated>
+    </task>
+    <task id="LOCAL-00020" summary="resolve address path">
+      <option name="closed" value="true" />
+      <created>1716964959725</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1716964959725</updated>
+    </task>
+    <task id="LOCAL-00021" summary="resolve address">
+      <option name="closed" value="true" />
+      <created>1716965057246</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1716965057246</updated>
+    </task>
+    <task id="LOCAL-00022" summary="resolve address">
+      <option name="closed" value="true" />
+      <created>1716965202410</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1716965202410</updated>
+    </task>
+    <task id="LOCAL-00023" summary="resolve address">
+      <option name="closed" value="true" />
+      <created>1716966162390</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1716966162390</updated>
+    </task>
+    <task id="LOCAL-00024" summary="resolve address">
+      <option name="closed" value="true" />
+      <created>1716966621327</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1716966621327</updated>
+    </task>
+    <task id="LOCAL-00025" summary="resolve address">
+      <option name="closed" value="true" />
+      <created>1716966760744</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1716966760744</updated>
+    </task>
+    <task id="LOCAL-00026" summary="add the class indexes">
+      <option name="closed" value="true" />
+      <created>1716969595298</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1716969595298</updated>
+    </task>
+    <task id="LOCAL-00027" summary="add the class indexes">
+      <option name="closed" value="true" />
+      <created>1716969744354</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1716969744354</updated>
+    </task>
+    <task id="LOCAL-00028" summary="add the class indexes">
+      <option name="closed" value="true" />
+      <created>1716971033369</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1716971033369</updated>
+    </task>
+    <task id="LOCAL-00029" summary="add the class indexes">
+      <option name="closed" value="true" />
+      <created>1716971139119</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1716971139119</updated>
+    </task>
+    <task id="LOCAL-00030" summary="add the class indexes">
+      <option name="closed" value="true" />
+      <created>1716975087797</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1716975087797</updated>
+    </task>
+    <task id="LOCAL-00031" summary="add the class indexes">
+      <option name="closed" value="true" />
+      <created>1716975273443</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1716975273443</updated>
+    </task>
+    <task id="LOCAL-00032" summary="change image net path">
+      <option name="closed" value="true" />
+      <created>1717046474878</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1717046474878</updated>
+    </task>
+    <task id="LOCAL-00033" summary="change image net path">
+      <option name="closed" value="true" />
+      <created>1717046631818</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1717046631818</updated>
+    </task>
+    <task id="LOCAL-00034" summary="change image net path">
+      <option name="closed" value="true" />
+      <created>1717046869009</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1717046869009</updated>
+    </task>
+    <task id="LOCAL-00035" summary="change image net path2">
+      <option name="closed" value="true" />
+      <created>1717047070009</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1717047070009</updated>
+    </task>
+    <task id="LOCAL-00036" summary="debug">
+      <option name="closed" value="true" />
+      <created>1717049006854</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1717049006854</updated>
+    </task>
+    <task id="LOCAL-00037" summary="debug2">
+      <option name="closed" value="true" />
+      <created>1717049156703</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1717049156703</updated>
+    </task>
+    <task id="LOCAL-00038" summary="debug2">
+      <option name="closed" value="true" />
+      <created>1717049293661</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1717049293661</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="raw" />
+    <MESSAGE value="ADD chest dataset" />
+    <MESSAGE value="adjust the path for loading the dataset" />
+    <MESSAGE value="resolve some import problems" />
+    <MESSAGE value="resolve problems in imports" />
+    <MESSAGE value="add chest dataset" />
+    <MESSAGE value="resolve index error" />
+    <MESSAGE value="resolve address path" />
+    <MESSAGE value="resolve address" />
+    <MESSAGE value="add the class indexes" />
+    <MESSAGE value="change image net path" />
+    <MESSAGE value="change image net path2" />
+    <MESSAGE value="debug" />
+    <MESSAGE value="debug2" />
+    <option name="LAST_COMMIT_MESSAGE" value="debug2" />
+  </component>
+</project>
