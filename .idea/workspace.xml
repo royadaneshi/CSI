@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="batch size resolve2">
+    <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="debugg">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -401,7 +400,31 @@
       <option name="project" value="LOCAL" />
       <updated>1717050048978</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="batch size resolve2">
+      <option name="closed" value="true" />
+      <created>1717051467189</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1717051467189</updated>
+    </task>
+    <task id="LOCAL-00045" summary="batch size resolve2">
+      <option name="closed" value="true" />
+      <created>1717051657738</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1717051657738</updated>
+    </task>
+    <task id="LOCAL-00046" summary="debugg">
+      <option name="closed" value="true" />
+      <created>1717051815244</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1717051815244</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -423,6 +446,7 @@
     <MESSAGE value="debug3" />
     <MESSAGE value="batch size resolve" />
     <MESSAGE value="batch size resolve2" />
-    <option name="LAST_COMMIT_MESSAGE" value="batch size resolve2" />
+    <MESSAGE value="debugg" />
+    <option name="LAST_COMMIT_MESSAGE" value="debugg" />
   </component>
 </project>
