@@ -49,6 +49,7 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
         check = time.time()
 
 #####################
+
         ### SimCLR loss ###
         batch_size = images.size(0)
         images = images.to(device)
