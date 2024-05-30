@@ -72,7 +72,6 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
 
         images_pair = torch.cat([images1, images2], dim=0)  # 8B
         images_pair = simclr_aug(images_pair)  # transform
-
         _, outputs_aux = model(images_pair, simclr=True, penultimate=False, shift=True)
 
         simclr = normalize(outputs_aux['simclr'])  # normalize

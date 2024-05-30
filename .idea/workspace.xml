@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="debugg">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" afterDir="false" />
     </list>
@@ -57,30 +56,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715759466089</updated>
-    </task>
-    <task id="LOCAL-00001" summary="raw">
-      <option name="closed" value="true" />
-      <created>1715759597875</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1715759597875</updated>
-    </task>
-    <task id="LOCAL-00002" summary="raw">
-      <option name="closed" value="true" />
-      <created>1715759737947</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1715759737947</updated>
-    </task>
-    <task id="LOCAL-00003" summary="raw">
-      <option name="closed" value="true" />
-      <created>1715759894337</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1715759894337</updated>
     </task>
     <task id="LOCAL-00004" summary="ADD chest dataset">
       <option name="closed" value="true" />
@@ -450,7 +425,31 @@
       <option name="project" value="LOCAL" />
       <updated>1717053440916</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="debugg">
+      <option name="closed" value="true" />
+      <created>1717053998617</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1717053998617</updated>
+    </task>
+    <task id="LOCAL-00051" summary="debugg">
+      <option name="closed" value="true" />
+      <created>1717054138871</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1717054138871</updated>
+    </task>
+    <task id="LOCAL-00052" summary="debugg">
+      <option name="closed" value="true" />
+      <created>1717054209937</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1717054209938</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
