@@ -68,16 +68,12 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
         # images2 = torch.cat([P.shift_trans(images2, k) for k in range(P.K_shift)])
         # shift_labels = torch.cat([torch.ones_like(labels) * k for k in range(P.K_shift)], 0)  # B -> 4B
         shift_labels = torch.cat([torch.ones_like(labels), torch.zeros_like(labels)], 0)  # B -> 4B
-        shift_labels = shift_labels.repeat(2)
+        shift_labels = shift_labels.repeat(2).to(device)
 
 ################3
 
-        # Repeat images if needed to match the target batch size
-        if images1.size(0) < shift_labels.size(0):
-            repeat_factor = (shift_labels.size(0) + images1.size(0) - 1) // images1.size(0)
-            images1 = images1.repeat(repeat_factor, 1, 1, 1)[:shift_labels.size(0)]
-            images2 = images2.repeat(repeat_factor, 1, 1, 1)[:shift_labels.size(0)]
-
+        images1 = images1.repeat(2, 1, 1, 1)[:shift_labels.size(0)]
+        images2 = images2.repeat(2, 1, 1, 1)[:shift_labels.size(0)]
         ###########
         images_pair = torch.cat([images1, images2], dim=0)  # 8B
         images_pair = simclr_aug(images_pair)  # transform
