@@ -67,14 +67,9 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
         # images1 = torch.cat([P.shift_trans(images1, k) for k in range(P.K_shift)])
         # images2 = torch.cat([P.shift_trans(images2, k) for k in range(P.K_shift)])
         # shift_labels = torch.cat([torch.ones_like(labels) * k for k in range(P.K_shift)], 0)  # B -> 4B
-        shift_labels = torch.cat([torch.ones_like(labels), torch.zeros_like(labels)], 0)  # B -> 4B
-        shift_labels = shift_labels.repeat(2).to(device)
+        shift_labels = torch.cat([torch.ones_like(images1.size(0)), torch.zeros_like(images2.size(0))], 0)  # B -> 4B
+        shift_labels = shift_labels.repeat(2)
 
-################3
-
-        images1 = images1.repeat(2, 1, 1, 1)[:shift_labels.size(0)]
-        images2 = images2.repeat(2, 1, 1, 1)[:shift_labels.size(0)]
-        ###########
         images_pair = torch.cat([images1, images2], dim=0)  # 8B
         images_pair = simclr_aug(images_pair)  # transform
         _, outputs_aux = model(images_pair, simclr=True, penultimate=False, shift=True)
