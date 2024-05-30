@@ -67,8 +67,9 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
         # images1 = torch.cat([P.shift_trans(images1, k) for k in range(P.K_shift)])
         # images2 = torch.cat([P.shift_trans(images2, k) for k in range(P.K_shift)])
         # shift_labels = torch.cat([torch.ones_like(labels) * k for k in range(P.K_shift)], 0)  # B -> 4B
-        shift_labels = torch.cat([torch.ones_like(images1.size(0)), torch.zeros_like(images2.size(0))], 0)  # B -> 4B
-        shift_labels = shift_labels.repeat(2)
+        # shift_labels = torch.cat([torch.ones_like(images1.size(0)), torch.zeros_like(images2.size(0))], 0)  # B -> 4B
+        # shift_labels = shift_labels.repeat(2)
+        shift_labels = torch.cat([torch.ones(images1.size(0), dtype=torch.long), torch.zeros(images2.size(0), dtype=torch.long)], dim=0).to(device)
 
         images_pair = torch.cat([images1, images2], dim=0)  # 8B
         images_pair = simclr_aug(images_pair)  # transform
@@ -77,6 +78,8 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
         simclr = normalize(outputs_aux['simclr'])  # normalize
         sim_matrix = get_similarity_matrix(simclr, multi_gpu=P.multi_gpu)
         loss_sim = NT_xent(sim_matrix, temperature=0.5) * P.sim_lambda
+        print(f"outputs_aux['shift'].shape: {outputs_aux['shift'].shape}, shift_labels.shape: {shift_labels.shape}")
+
         # ####################3333
         # print("----------------------------------------------------------")
         # print(outputs_aux['shift'], "--", shift_labels.size(0))
