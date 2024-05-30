@@ -46,7 +46,7 @@ for epoch in range(start_epoch, P.epochs + 1):
     train(P, epoch, model, criterion, optimizer, scheduler_warmup, train_loader,
           train_exposure_loader=train_exposure_loader, logger=logger, **kwargs)
 
-
+#
     model.eval()
     save_states = model.state_dict()
     save_checkpoint(epoch, save_states, optimizer.state_dict(), logger.logdir)
