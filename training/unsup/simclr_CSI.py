@@ -71,6 +71,7 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
         # Creating shift labels to match combined batch size
         shift_labels = torch.cat([torch.ones(batch_size, device=device), torch.zeros(batch_size, device=device)])
         ##changed
+
         shift_labels = shift_labels.repeat(2).long()
 
         images_pair = torch.cat([images1, images2], dim=0)  # 8B
