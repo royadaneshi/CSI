@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="debug2">
-      <change beforePath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" afterDir="false" />
-    </list>
+    <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="batch size resolve" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -360,7 +358,23 @@
       <option name="project" value="LOCAL" />
       <updated>1717049293661</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="debug3">
+      <option name="closed" value="true" />
+      <created>1717049481161</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1717049481161</updated>
+    </task>
+    <task id="LOCAL-00040" summary="batch size resolve">
+      <option name="closed" value="true" />
+      <created>1717049634433</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1717049634434</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -379,6 +393,8 @@
     <MESSAGE value="change image net path2" />
     <MESSAGE value="debug" />
     <MESSAGE value="debug2" />
-    <option name="LAST_COMMIT_MESSAGE" value="debug2" />
+    <MESSAGE value="debug3" />
+    <MESSAGE value="batch size resolve" />
+    <option name="LAST_COMMIT_MESSAGE" value="batch size resolve" />
   </component>
 </project>
