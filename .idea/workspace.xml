@@ -7,6 +7,7 @@
     <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="debugg">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -433,7 +434,23 @@
       <option name="project" value="LOCAL" />
       <updated>1717052741163</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="debugg">
+      <option name="closed" value="true" />
+      <created>1717053085774</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1717053085774</updated>
+    </task>
+    <task id="LOCAL-00049" summary="debugg">
+      <option name="closed" value="true" />
+      <created>1717053440916</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1717053440916</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

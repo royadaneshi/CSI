@@ -12,7 +12,6 @@ hflip = TL.HorizontalFlipLayer().to(device)
 
 def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposure_loader=None, logger=None,
           simclr_aug=None, linear=None, linear_optim=None):
-
     assert simclr_aug is not None
     assert P.sim_lambda == 1.0  # to avoid mistake
     P.K_shift = 2
@@ -48,7 +47,6 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
         data_time.update(time.time() - check)
         check = time.time()
 
-
         ### SimCLR loss ###
         if P.dataset != 'imagenet':
             batch_size = images.size(0)
@@ -80,7 +78,9 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
         simclr = normalize(outputs_aux['simclr'])  # normalize
         sim_matrix = get_similarity_matrix(simclr, multi_gpu=P.multi_gpu)
         loss_sim = NT_xent(sim_matrix, temperature=0.5) * P.sim_lambda
-
+        ####################3333
+        print(outputs_aux['shift'],"--", shift_labels.batch_size)
+        ##################
         loss_shift = criterion(outputs_aux['shift'], shift_labels)
         ### total loss ###
         loss = loss_sim + loss_shift
