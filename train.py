@@ -44,7 +44,7 @@ for epoch in range(start_epoch, P.epochs + 1):
     if epoch > P.unfreeze_pretrain_model_epoch:
         for param in model.parameters():
             param.requires_grad = True
-    print("train_loader: ",train_loader.batch_size, " --train_exposure_loader: ", train_exposure_loader.batch_siza,"######################################################")
+    print("train_loader: ",train_loader.batch_size, " --train_exposure_loader: ", train_exposure_loader.batch_size,"######################################################")
     train(P, epoch, model, criterion, optimizer, scheduler_warmup, train_loader,
           train_exposure_loader=train_exposure_loader, logger=logger, **kwargs)
 
