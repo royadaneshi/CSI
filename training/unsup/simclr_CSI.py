@@ -127,7 +127,6 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
         # loss_shift = criterion(outputs_aux['shift'], shift_labels)
         ### total loss ###
         loss = loss_sim + loss_shift
-
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
