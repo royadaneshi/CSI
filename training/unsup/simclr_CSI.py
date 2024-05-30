@@ -9,6 +9,7 @@ from utils_.utils import AverageMeter, normalize
 device = torch.device(f"cuda" if torch.cuda.is_available() else "cpu")
 hflip = TL.HorizontalFlipLayer().to(device)
 
+
 def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposure_loader=None, logger=None,
           simclr_aug=None, linear=None, linear_optim=None):
     assert simclr_aug is not None
@@ -61,7 +62,6 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
             images1, images2 = images[0].to(device), images[1].to(device)
         labels = labels.to(device)
 
-
         images1 = torch.cat([images1, exposure_images1])
         images2 = torch.cat([images2, exposure_images2])
         # images1 = torch.cat([P.shift_trans(images1, k) for k in range(P.K_shift)])
@@ -70,7 +70,15 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
         shift_labels = torch.cat([torch.ones_like(labels), torch.zeros_like(labels)], 0)  # B -> 4B
         shift_labels = shift_labels.repeat(2)
 
+################3
 
+        # Repeat images if needed to match the target batch size
+        if images1.size(0) < shift_labels.size(0):
+            repeat_factor = (shift_labels.size(0) + images1.size(0) - 1) // images1.size(0)
+            images1 = images1.repeat(repeat_factor, 1, 1, 1)[:shift_labels.size(0)]
+            images2 = images2.repeat(repeat_factor, 1, 1, 1)[:shift_labels.size(0)]
+
+        ###########
         images_pair = torch.cat([images1, images2], dim=0)  # 8B
         images_pair = simclr_aug(images_pair)  # transform
         _, outputs_aux = model(images_pair, simclr=True, penultimate=False, shift=True)
