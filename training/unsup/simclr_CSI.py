@@ -46,8 +46,7 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
 
         data_time.update(time.time() - check)
         check = time.time()
-
-        ### SimCLR loss ###
+        #####
         if P.dataset != 'imagenet':
             batch_size = images.size(0)
             images = images.to(device)
@@ -68,7 +67,7 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
         # images2 = torch.cat([P.shift_trans(images2, k) for k in range(P.K_shift)])
         # shift_labels = torch.cat([torch.ones_like(labels) * k for k in range(P.K_shift)], 0)  # B -> 4B
         shift_labels = torch.cat([torch.ones_like(labels), torch.zeros_like(labels)], 0)  # B -> 4B
-        shift_labels = shift_labels.repeat(2)
+        shift_labels = shift_labels.repeat(2)  # Duplicate to match the size after concatenation
 
         images_pair = torch.cat([images1, images2], dim=0)  # 8B
         images_pair = simclr_aug(images_pair)  # transform
@@ -77,13 +76,55 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
         simclr = normalize(outputs_aux['simclr'])  # normalize
         sim_matrix = get_similarity_matrix(simclr, multi_gpu=P.multi_gpu)
         loss_sim = NT_xent(sim_matrix, temperature=0.5) * P.sim_lambda
-        ####################3333
+
         print("----------------------------------------------------------")
         print(outputs_aux['shift'], "--", shift_labels.size(0))
         print("----------------------------------------------------------")
 
         ##################
+        # Ensure shift_labels has the same size as outputs_aux['shift']
+        expected_size = outputs_aux['shift'].size(0)
+        shift_labels = shift_labels[:expected_size]
+
         loss_shift = criterion(outputs_aux['shift'], shift_labels)
+        #########
+        # ### SimCLR loss ###
+        # if P.dataset != 'imagenet':
+        #     batch_size = images.size(0)
+        #     images = images.to(device)
+        #     exposure_images = exposure_images.to(device)
+        #     if P.cl_no_hflip:
+        #         images1, images2 = images.repeat(2, 1, 1, 1).chunk(2)  # hflip
+        #     else:
+        #         images1, images2 = hflip(images.repeat(2, 1, 1, 1)).chunk(2)  # hflip
+        #     exposure_images1, exposure_images2 = hflip(exposure_images.repeat(2, 1, 1, 1)).chunk(2)  # hflip
+        # else:
+        #     batch_size = images[0].size(0)
+        #     images1, images2 = images[0].to(device), images[1].to(device)
+        # labels = labels.to(device)
+        #
+        # images1 = torch.cat([images1, exposure_images1])
+        # images2 = torch.cat([images2, exposure_images2])
+        # # images1 = torch.cat([P.shift_trans(images1, k) for k in range(P.K_shift)])
+        # # images2 = torch.cat([P.shift_trans(images2, k) for k in range(P.K_shift)])
+        # # shift_labels = torch.cat([torch.ones_like(labels) * k for k in range(P.K_shift)], 0)  # B -> 4B
+        # shift_labels = torch.cat([torch.ones_like(labels), torch.zeros_like(labels)], 0)  # B -> 4B
+        # shift_labels = shift_labels.repeat(2)
+        #
+        # images_pair = torch.cat([images1, images2], dim=0)  # 8B
+        # images_pair = simclr_aug(images_pair)  # transform
+        # _, outputs_aux = model(images_pair, simclr=True, penultimate=False, shift=True)
+        #
+        # simclr = normalize(outputs_aux['simclr'])  # normalize
+        # sim_matrix = get_similarity_matrix(simclr, multi_gpu=P.multi_gpu)
+        # loss_sim = NT_xent(sim_matrix, temperature=0.5) * P.sim_lambda
+        # ####################3333
+        # print("----------------------------------------------------------")
+        # print(outputs_aux['shift'], "--", shift_labels.size(0))
+        # print("----------------------------------------------------------")
+        #
+        # ##################
+        # loss_shift = criterion(outputs_aux['shift'], shift_labels)
         ### total loss ###
         loss = loss_sim + loss_shift
 
