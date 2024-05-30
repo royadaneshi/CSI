@@ -41,6 +41,7 @@ for epoch in range(start_epoch, P.epochs + 1):
     kwargs['linear_optim'] = linear_optim
     kwargs['simclr_aug'] = simclr_aug
 
+
     if epoch > P.unfreeze_pretrain_model_epoch:
         for param in model.parameters():
             param.requires_grad = True
