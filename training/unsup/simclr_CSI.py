@@ -61,7 +61,6 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, train_exposu
             batch_size = images[0].size(0)
             images1, images2 = images[0].to(device), images[1].to(device)
         labels = labels.to(device)
-
         images1 = torch.cat([images1, exposure_images1])
         images2 = torch.cat([images2, exposure_images2])
         # images1 = torch.cat([P.shift_trans(images1, k) for k in range(P.K_shift)])
