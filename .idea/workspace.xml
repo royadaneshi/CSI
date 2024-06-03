@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="resolve the batch size problemmm">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datasets/custom_datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/custom_datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datasets/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/datasets.py" afterDir="false" />
-    </list>
+    <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="add count to resolve batch size problem" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,14 +53,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715759466089</updated>
-    </task>
-    <task id="LOCAL-00017" summary="resolve index error">
-      <option name="closed" value="true" />
-      <created>1716963217655</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1716963217655</updated>
     </task>
     <task id="LOCAL-00018" summary="resolve address path">
       <option name="closed" value="true" />
@@ -450,7 +438,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717096214355</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="add count to resolve batch size problem">
+      <option name="closed" value="true" />
+      <created>1717434199872</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1717434199873</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -478,6 +474,7 @@
     <MESSAGE value="resolve the batch size error" />
     <MESSAGE value="resolve the batch size problem" />
     <MESSAGE value="resolve the batch size problemmm" />
-    <option name="LAST_COMMIT_MESSAGE" value="resolve the batch size problemmm" />
+    <MESSAGE value="add count to resolve batch size problem" />
+    <option name="LAST_COMMIT_MESSAGE" value="add count to resolve batch size problem" />
   </component>
 </project>
