@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="add count to resolve batch size problem" />
+    <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="add count to resolve batch size problem">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,14 +56,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715759466089</updated>
-    </task>
-    <task id="LOCAL-00018" summary="resolve address path">
-      <option name="closed" value="true" />
-      <created>1716964401147</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1716964401147</updated>
     </task>
     <task id="LOCAL-00019" summary="resolve address path">
       <option name="closed" value="true" />
@@ -446,8 +441,26 @@
       <option name="project" value="LOCAL" />
       <updated>1717434199873</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="add count to resolve batch size problem">
+      <option name="closed" value="true" />
+      <created>1717434343164</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1717434343164</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
