@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="resolve the batch size problemmm">
-      <change beforePath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" beforeDir="false" afterPath="$PROJECT_DIR$/training/unsup/simclr_CSI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datasets/custom_datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/custom_datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datasets/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/datasets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,22 +57,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715759466089</updated>
-    </task>
-    <task id="LOCAL-00015" summary="resolve index error">
-      <option name="closed" value="true" />
-      <created>1716962746400</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1716962746400</updated>
-    </task>
-    <task id="LOCAL-00016" summary="resolve index error">
-      <option name="closed" value="true" />
-      <created>1716962884407</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1716962884407</updated>
     </task>
     <task id="LOCAL-00017" summary="resolve index error">
       <option name="closed" value="true" />
@@ -448,7 +434,23 @@
       <option name="project" value="LOCAL" />
       <updated>1717094917526</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="resolve the batch size problemmm">
+      <option name="closed" value="true" />
+      <created>1717096079935</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1717096079935</updated>
+    </task>
+    <task id="LOCAL-00065" summary="resolve the batch size problemmm">
+      <option name="closed" value="true" />
+      <created>1717096214355</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1717096214355</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
