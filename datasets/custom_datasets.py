@@ -617,7 +617,6 @@ class chest(torch.utils.data.Dataset):
                     self.image_files.append(random.choice(self.image_files[:t]))
         ##############3
         self.image_files.sort(key=lambda y: y.lower())
-
         # if count:
         #     self.image_files = self.image_files[:count]
 
