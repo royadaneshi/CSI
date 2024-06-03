@@ -595,7 +595,6 @@ class UCSDDataset(Dataset):
     def __len__(self):
         return len(self.images_dir)
 
-
 ####################################33
 class chest(torch.utils.data.Dataset):
     def __init__(self, transform=None, train=True, count=-1):
