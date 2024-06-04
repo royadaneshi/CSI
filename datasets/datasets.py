@@ -898,8 +898,8 @@ def get_dataset(P, dataset, test_only=False, image_size=(32, 32, 3), download=Fa
             transforms.ToTensor(),
         ])
 
-        test_set = chest(transform=transform, train=True,count=-1)
-        train_set = chest(transform=transform, train=False,count=-1)
+        test_set = chest(transform=transform, train=True,count=128)
+        train_set = chest(transform=transform, train=False,count=128)
         print("train_set shapes: ", train_set[0][0].shape)
         print("test_set shapes: ", test_set[0][0].shape)
 
