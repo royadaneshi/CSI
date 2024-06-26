@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="batch to 128">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="6368dce8-88f6-4a8c-8ab9-777d37bbd1fe" name="Changes" comment="fix empty list">
       <change beforePath="$PROJECT_DIR$/datasets/custom_datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/custom_datasets.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,14 +55,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715759466089</updated>
-    </task>
-    <task id="LOCAL-00022" summary="resolve address">
-      <option name="closed" value="true" />
-      <created>1716965202410</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1716965202410</updated>
     </task>
     <task id="LOCAL-00023" summary="resolve address">
       <option name="closed" value="true" />
@@ -449,7 +440,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717478736388</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="fix empty list">
+      <option name="closed" value="true" />
+      <created>1719385783058</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1719385783058</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -475,7 +474,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="ADD chest dataset" />
     <MESSAGE value="adjust the path for loading the dataset" />
     <MESSAGE value="resolve some import problems" />
     <MESSAGE value="resolve problems in imports" />
@@ -500,6 +498,7 @@
     <MESSAGE value="add count to resolve batch size problem" />
     <MESSAGE value="a" />
     <MESSAGE value="batch to 128" />
-    <option name="LAST_COMMIT_MESSAGE" value="batch to 128" />
+    <MESSAGE value="fix empty list" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix empty list" />
   </component>
 </project>
