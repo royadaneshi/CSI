@@ -595,7 +595,9 @@ class UCSDDataset(Dataset):
     def __len__(self):
         return len(self.images_dir)
 
+
 ####################################33
+
 class chest(torch.utils.data.Dataset):
     def __init__(self, transform=None, train=True, count=-1):
         self.transform = transform
@@ -604,22 +606,19 @@ class chest(torch.utils.data.Dataset):
 
         if train:
             self.image_files = glob(os.path.join('/kaggle/input/chest-datasett256/chest_dataset/train', '*.png'))
-
         else:
             self.image_files = glob(os.path.join('/kaggle/input/chest-datasett256/chest_dataset/test', '*.png'))
-###################
+
         if count != -1:
             if count < len(self.image_files):
                 self.image_files = self.image_files[:count]
             else:
                 t = len(self.image_files)
-                for i in range(count - t):
-                    self.image_files.append(random.choice(self.image_files[:t]))
-        ##############3
-        self.image_files.sort(key=lambda y: y.lower())
-        # if count:
-        #     self.image_files = self.image_files[:count]
+                if t > 0:
+                    for i in range(count - t):
+                        self.image_files.append(random.choice(self.image_files[:t]))
 
+        self.image_files.sort(key=lambda y: y.lower())
     def __getitem__(self, index):
         # print(len(self.image_files), "---", index)
         image_file = self.image_files[index]
